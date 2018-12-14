@@ -1,0 +1,80 @@
+header {
+	padding: 4px;
+    background-color: black;
+}
+
+body{
+background-image: url(acceuilguitare.jpg); background-attachment: fixed; background-repeat: no-repeat;
+background-size: 1900px 1000px;
+}
+
+.decallageadroite {
+padding-left: 1250px 
+}
+
+.position {
+	position: relative; left 70%;
+}
+
+footer {
+    background-color: black;
+    padding: 8px;   
+}
+
+.textBlanc {
+color: white;
+text-align: center;
+}
+
+.monboutonblanc {
+	border-radius: 8px;
+    height: 43px;
+    width: 144px;
+    background-color: white;
+}
+
+.monboutonnoir {
+	border-radius: 8px;
+    height: 43px;
+    width: 144px;
+    background-color: black;
+    border: none;
+    color: white;
+}
+
+.float {
+	float: left;
+}
+
+.clear{	
+	clear: both;
+}
+
+.wrapper {
+	margin: 0 auto;
+	width: 960px;
+}
+
+.wrapperCCC {
+	margin: 0 auto;
+	width: 500px;
+	height: 830px;
+}
+
+.centrageproduit
+{    margin: 0 auto;
+    width: 400px;
+}
+
+td p {
+	font-size: 20px
+}
+
+.rectifMargin {
+	margin-top: 0px
+}
+
+.centagetableau{
+	padding-top: 60px
+}
+
