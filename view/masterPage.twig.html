@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link rel="stylesheet" href="monprojet.css"/>
+    <title>{% block title %}{% endblock %}Diakustom</title>
+    <meta charset="utf-8" />
+    <link type="text/css" rel="stylesheet" href="libbootstrap/css/bootstrap.css" />
+    <script type="text/javascript" src="libbootstrap/js/bootstrap.js"></script>
+</head>
+<body>
+    <header class="col-md-12 entete">
+        <div class="row">
+            <div class="col-md-1">
+                <a href="monprojet_acceuil.html" class="float"><img src= "logo.png" height="50px" alt="index" title="index" ></a>
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-8 text-right">
+                <a href="monprojet_acceuil.html"> <button class="col-md-2 btn btn-light " type="button"> Accueil</button> </a>
+                <a href="monprojet_monpanier.html"> <button class="col-md-2 btn btn-dark" type="button">Mon panier</button> </a>
+                <a href="monprojet_connexion.html"> <button class="col-md-2 btn btn-dark" type="button">Connexion</button> </a>
+                <a href="monprojet_moncompte.html"> <button class="col-md-2 btn btn-dark" type="button">Mon compte</button> </a>
+            </div>	
+        </div>
+    </header>
+    {% block content %}{% endblock %}
+    <section>
+        <footer class="pieddepage"> <p>Mentions légales/Contacts</p>
+        </footer>
+    </section>
+</body>
+</html>

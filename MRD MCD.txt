@@ -1,0 +1,16 @@
+SOUSCATEGORIE (idsouscategorie, libellé, idcatégorie#)
+CATEGORIE (idcatégorie, libellé)
+ARTICLEPANIER(idArticle#, idPanier#, qte)
+PANIER(id, date, idUtilisateur#)
+ARTICLE(id, libelle, image, prixU, idTaille#, idCouleur#, idSouscatégorie#)
+ARTICLETAILLE(idArticle#, idTaille#)
+TAILLE(idtaille, taille)
+ARTICLECOULEUR(idCouleur#, idArticle#)
+COULEUR (idCouleur, libellé)
+UTILISATEUR (idUtilisateur, nom, prénom, date de naissance, pseudo, adresse mail, mot de passe, 
+idLivraison#, idFacturation#)
+adress(idadresse, adresselivraison, cplivraison, villelivraison)
+CHAT (idchat, message, date message, idutilisateur#)
+News (Idnews, messagen date) 
+
+
