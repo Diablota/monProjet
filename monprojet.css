@@ -1,18 +1,28 @@
 .entete {
 	position: fixed;
 	background-color: black;
+	padding: 10px; 
 }
 
 body{
 	margin:0;
 	padding:0;
-	background: url(acceuilguitare.jpg) no-repeat center fixed; 
+	background: url(src/img/display/acceuilguitare2.jpg) no-repeat center fixed; 
 	-webkit-background-size: cover; /* pour anciens Chrome et Safari */
 	background-size: cover; /* version standardisée */
-	}
+}
+
+#boxtexteacceuil {
+	/*padding:10px; pour donner une hauteur définie; padding: l'intérieur du cadre*/
+	width:400px;
+	text-align:left;
+    border:3px solid #af0d0dba;
+    overflow-x: hidden;
+	overflow-wrap: break-word;
+}
 
 .pieddepage {
-	position: absolute;
+	position: fixed;
 	background-color: black;
 	padding: 8px;   
 	bottom: 0px;
@@ -21,13 +31,31 @@ body{
 	text-align: center;
 }
 
-#boxtexteacceuil {
-    text-align:left;
-    margin:150px;
-    margin-bottom:25px;
-    padding:10px;
-    height:270px;
-    width:410px;
-    border:3px solid #af0d0dba;
-    overflow-x: hidden;
-	overflow-wrap: break-word; }
+.hiddenMsg {
+	display: none;
+	color: brown;
+	font-size: 12px;
+}
+
+.mamodal {
+    background-image:url(src/img/display/visage.gif);
+    background-size: 470px;
+	background-repeat: no-repeat;
+	-webkit-background-size: cover; /* pour anciens Chrome et Safari */
+	background-size: cover; /* version standardisée */
+}
+
+.mamodal1 {
+    background-image:url(src/img/display/monde.gif);
+    background-size: 470px;
+    background-repeat: no-repeat;
+}
+
+.btn-noDecoration {
+	color: white;
+}
+
+.imgArticle {
+	max-width: 100%;
+    max-height: 100%;
+}

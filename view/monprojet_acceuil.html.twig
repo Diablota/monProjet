@@ -1,0 +1,43 @@
+{% extends "masterPage.html.twig" %}
+
+{% block title %}Accueil - {% endblock %}
+
+{% block content %}
+	<div style="width:100%; height: 15vh;">
+	</div>
+	<div class="dropdown">
+		<button class="col-sm-3 btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Vêtements
+		</button>
+		<div class="col-sm-3 dropdown-menu" aria-labelledby="dropdownMenu2">
+			<button class="dropdown-item" type="button">Pantalons</button>
+			<button class="dropdown-item" type="button">Robes</button>
+			<button class="dropdown-item" type="button">Tee-shirt</button>
+		</div>
+	</div>
+</br></br>
+	<div class="dropdown">
+		<button class="col-sm-3 btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Accessoires
+		</button>
+		<div class="col-sm-3 dropdown-menu" aria-labelledby="dropdownMenu2">
+			<button class="dropdown-item" type="button">aaaaa</button>
+			<button class="dropdown-item" type="button">zzzzz</button>
+			<button class="dropdown-item" type="button">eeee</button>
+		</div>
+	</div>
+</br></br>
+	<div class="dropdown">
+		<button class="col-sm-3 btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Autres
+		</button>
+			<div class="col-sm-3 dropdown-menu" aria-labelledby="dropdownMenu2">
+			<button class="dropdown-item" type="button">RRR</button>
+			<button class="dropdown-item" type="button">TTT</button>
+			<button class="dropdown-item" type="button">YYY</button>
+		</div>
+	</div>
+</br></br>
+	<div id="boxtexteacceuil">             
+		<button type="button" class="btn btn-light">Vêtements</button> </br></br>
+		<button type="button" class="btn btn-light">Accessoires</button> </br></br>
+		<button type="button" class="btn btn-light">Autres</button>
+	</div>
+{% endblock %}

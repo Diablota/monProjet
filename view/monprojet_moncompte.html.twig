@@ -1,0 +1,42 @@
+{% extends "masterPage.html.twig" %}
+
+{% block title %}Accueil - {% endblock %}
+
+{% block content %}
+<form id="myForm">
+	<label class="form_col" for="lastName">Nom :</label>
+	<input name="lastName" id="lastName" type="text" />
+	<span id="errorLastName" class="tooltip hiddenMsg">Un nom ne peut pas faire moins de 2 caractères</span>
+	<br /><br />
+
+	<label class="form_col" for="firstName">Prénom :</label>
+	<input name="firstName" id="firstName" type="text" />
+	<span id="errorFirstName" class="tooltip hiddenMsg">Un prénom ne peut pas faire moins de 2 caractères</span>
+	<br /><br />
+
+	<label class="form_col" for="date_naiss">Date de Naissance: :</label>
+	<input name="date_naiss" id="date_naiss" type="text" />
+	<br /><br />
+
+	<label class="form_col" for="login">Pseudo :</label>
+	<input name="login" id="pseudo" type="text" />
+	<span id="errorPseudo" class="tooltip hiddenMsg">Le pseudo ne peut pas faire moins de 4 caractères</span>
+	<br /><br />
+
+	<label class="form_col" for="pwd1">Mot de passe :</label>
+	<input name="pwd1" id="pwd1" type="password" />
+	
+	<br /><br />
+
+	<label class="form_col" for="pwd2">Mot de passe (confirmation) :</label>
+	<input name="pwd2" id="pwd2" type="password" />
+	<span id="errorPwd1" class="tooltip hiddenMsg">Le mot de passe ne doit pas faire moins de 6 caractères</span>
+	<span id="errorPwd2" class="tooltip hiddenMsg">Le mot de passe de confirmation doit être identique à celui d'origine</span>
+	<br /><br />
+
+	<br /><br />
+	<span class="form_col"></span>
+	<input type="submit" value="M'inscrire" /> <input type="reset" value="Réinitialiser le formulaire" />
+
+</form>
+{% endblock %}

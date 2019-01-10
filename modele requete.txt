@@ -1,0 +1,23 @@
+
+select *
+from utilisateur
+left join adresse as facturation
+  on utilisateur.id_facturation = facturation.id
+left join adresse as livraison
+  on utilisateur.id_livraison = livraison.id
+
+
+
+
+
+id_user = 1, id_adress = 1
+id_user = 1, id_adresse = 2
+
+SELECT livraison.*
+FROM `panier`
+LEFT JOIN utilisateur
+  on utilisateur.id = panier.id_utilisateur
+ LEFT JOIN adresse as livraison
+   on livraison.id = panier.id_livraison
+LEFT JOIN adresse as facturation
+   on facturation.id = panier.id_facturation
