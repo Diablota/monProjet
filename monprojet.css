@@ -28,7 +28,6 @@ body{
 	bottom: 0px;
 	width: 100%;
 	color: white;
-	text-align: center;
 }
 
 .hiddenMsg {
@@ -51,6 +50,13 @@ body{
     background-repeat: no-repeat;
 }
 
+.modalMention{
+	background-image:url(src/img/display/mentions2.jpg);
+	background-size: 1400px;
+	background-repeat: no-repeat;
+	color: white;
+	
+}
 .btn-noDecoration {
 	color: white;
 }

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    
     <title>{% block title %}{% endblock %}Diakustom</title>
     <meta charset="utf-8" />
     <link type="text/css" rel="stylesheet" href="libbootstrap/css/bootstrap.css" />
@@ -17,21 +16,25 @@
         <header class="col-md-12 entete">
             <div class="row">
                 <div class="col-md-1">
-                    <a href="monprojet_acceuil.html" class="float"><img src= "src/img/display/logo.png" height="50px" alt="index" title="index" ></a>
+                    <a href="monprojet_acceuil.html" class="float"><img src= "src/img/display/logoPetit.png" height="40px" alt="index" title="index" ></a>
                 </div>
                 <div class="col-md-3"></div>
                 <div class="col-md-8 text-right">
                     <a id="linkIndex" href="#"><button class="col-md-2 btn btn-light " type="button"> Accueil</button> </a>
-                    <a id="linkPanier" href="#"> <button class="col-md-2 btn btn-dark" type="button">Mon panier</button> </a>
-                    <button type="button" class="col-md-2 btn btn-dark" data-toggle="modal" data-target="#connectionModal"> Connexion</button>
+                    <!--- <a id="linkPanier" href="#"> <button class="col-md-2 btn btn-light" type="button">Mon panier</button> </a> -->
+                    <button type="button" class="col-md-2 btn btn-light" data-toggle="modal" data-target="#modalPanier">Mon panier</button>
+                    <button type="button" class="col-md-2 btn btn-light" data-toggle="modal" data-target="#connectionModal"> Connexion</button>
                 </div>	
             </div>
         </header>
         <div style="height: 64px;"></div>
         {% block content %}{% endblock %}
-        <section>
-            <footer class="pieddepage"> <p>Mentions légales/Contacts</p></footer>
-        </section>
+            <footer class="pieddepage"> 
+                <div class="row">
+                    <button type="button" class="btn btn-link col-md-3 offset-md-4 btn-noDecoration" data-toggle="modal" data-target="#mentionModal">Mentions légales / Contacts</button>
+                    <button type="button" class="btn btn-light col-md-4 offset-md-1">Live vendeur</button>
+                </div>
+            </footer>
 
         <!--  MODAL CONNEXION --> 
         <div class="modal fade" id="connectionModal" tabindex="-1" role="dialog" aria-labelledby="connectionModalLabel" aria-hidden="true">
@@ -53,7 +56,8 @@
                                         <input type="email" name="emailConnection" class="form-control" placeholder="Votre email" /> <br />
                                         <label for="exampleInputPassword1">Mot de passe</label>
                                         <input type="password" class="form-control" name="mdpConnection" placeholder="Votre mot de passe" /> <br />
-                                        <button type="button" id="btnInscription" data-toggle="modal" data-target="#exampleModalLong" class ="btn btn-link btn-noDecoration" >S'inscrire</button>
+                                        <button type="button" id="btnInscription" data-toggle="modal" data-target="#exampleModalLong" class ="btn btn-link btn-noDecoration" >S'inscrire
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="col-md-1"></div>
@@ -124,7 +128,59 @@
                     </div>
                 </div>
             </div>
+        </div> 
+
+        <!-- Modal Mentions légales / Contact-->
+        <div class="modal fade" id="mentionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Mentions légales / Contacts</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modalMention"
+                            <h6>Bienvenue sur "Diakustom". </h6>
+                            <P>Siège social Diakustom </br>7 rue de l'étuve </br>54210 Saint Nicolas de Port </br> 06.29.13.26.12 </br> diakustom@gmail.com</p>
+                            <p>En accédant ou en utilisant notre service, vous signifiez que vous avez lu, compris et accepté la collecte, le stockage, l'utilisation et la divulgation de vos informations personnelles.</P>
+                            <h6>INFORMATIONS PERSONNELLES</h6>
+                            <P>Nous ne collectons, partageons, vendons, envoyons ou utilisons aucune information personnelle, à l'exception des informations personnelles que vous soumettez lorsque vous nous envoyez un courrier électronique, envoyez un rapport d'erreur, participez à des sondages en ligne et à d'autres activités. </br> Nous ne pouvons utiliser les informations personnelles que vous avez fournies que pour les objectifs suivants: </p> <li> Fournir et améliorer nos produits et services</li> <li> Fournir un service de meilleure qualité </li><li> Gérer des sondages en ligne et autres activités auxquelles vous avez participé.</li> </br>
+                            <h6>PROTECTION DES PERSONNES</h6>
+                            <P>Nous prenons des mesures de sécurité appropriées pour protéger vos informations contre tout accès non autorisé et toute divulgation. Sachez que vous êtes responsable des informations que vous transmettez à d’autres services (par exemple, lorsque vous soumettez des commentaires sur nos produits). Veuillez donc prendre les précautions nécessaires lorsque vous utilisez d'autres services pour protéger vos informations personnelles.</P>
+                            <h6>MISES À JOUR DE CETTE POLITIQUE</h6>
+                            <P>Nous nous réservons le droit de modifier cette politique de temps à autre. Si nous apportons des modifications à cette politique, nous modifierons la date de "Dernière révision" ci-dessous et afficherons la politique mise à jour sur cette page.</p>
+                            <p> MAJ Janvier 2019</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary col-sm-3 btn btn-dark" data-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
         </div> <!-- end modal -->
+
+        <!-- Modal Mon panier-->
+        <div class="modal fade" id="modalPanier" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Mon panier</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                        <div class="modal-body">
+                            ...
+                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">Payer ma commande</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </form>
 </body>
 </html>
