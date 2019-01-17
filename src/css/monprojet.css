@@ -7,7 +7,7 @@
 body{
 	margin:0;
 	padding:0;
-	background: url(src/img/display/acceuilguitare2.jpg) no-repeat center fixed; 
+	background: url(../img/display/acceuilguitare2.jpg) no-repeat center fixed; 
 	-webkit-background-size: cover; /* pour anciens Chrome et Safari */
 	background-size: cover; /* version standardisée */
 }
@@ -37,7 +37,7 @@ body{
 }
 
 .mamodal {
-    background-image:url(src/img/display/visage.gif);
+    background-image:url(../img/display/visage.gif);
     background-size: 470px;
 	background-repeat: no-repeat;
 	-webkit-background-size: cover; /* pour anciens Chrome et Safari */
@@ -45,14 +45,14 @@ body{
 }
 
 .mamodal1 {
-    background-image:url(src/img/display/monde.gif);
+    background-image:url(../img/display/monde.gif);
     background-size: 470px;
     background-repeat: no-repeat;
 }
 
 .modalMention{
-	background-image:url(src/img/display/mentions2.jpg);
-	background-size: 1400px;
+	background-image:url(../img/display/mentions2.jpg);
+	background-size: 600px;
 	background-repeat: no-repeat;
 	color: white;
 	

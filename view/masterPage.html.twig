@@ -3,12 +3,12 @@
 <head>
     <title>{% block title %}{% endblock %}Diakustom</title>
     <meta charset="utf-8" />
-    <link type="text/css" rel="stylesheet" href="libbootstrap/css/bootstrap.css" />
+    <link type="text/css" rel="stylesheet" href="lib/libbootstrap/css/bootstrap.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="jquery.js"></script>
-    <script type="text/javascript" src="libbootstrap/js/bootstrap.js"></script>
-    <script type="text/javascript" src="js.js"></script>
-    <link rel="stylesheet" href="monprojet.css"/>
+    <script type="text/javascript" src="lib/js/jquery.js"></script>
+    <script type="text/javascript" src="lib/libbootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="lib/js/js.js"></script>
+    <link rel="stylesheet" href="src/css/monprojet.css"/>
 </head>
 <body>
     <form id="formNav" action="index.php" method="POST">
@@ -16,7 +16,7 @@
         <header class="col-md-12 entete">
             <div class="row">
                 <div class="col-md-1">
-                    <a href="monprojet_acceuil.html" class="float"><img src= "src/img/display/logoPetit.png" height="40px" alt="index" title="index" ></a>
+                    <a href="index.php" class="float"><img src= "src/img/display/logoPetit.png" height="40px" alt="index" title="index" ></a>
                 </div>
                 <div class="col-md-3"></div>
                 <div class="col-md-8 text-right">
@@ -32,7 +32,8 @@
             <footer class="pieddepage"> 
                 <div class="row">
                     <button type="button" class="btn btn-link col-md-3 offset-md-4 btn-noDecoration" data-toggle="modal" data-target="#mentionModal">Mentions légales / Contacts</button>
-                    <button type="button" class="btn btn-light col-md-4 offset-md-1">Live vendeur</button>
+                    <button type="button" class="btn btn-light col-md-4 offset-md-1" data-toggle="modal" data-target="#modalLive">Live vendeur
+                    </button>
                 </div>
             </footer>
 
@@ -65,7 +66,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="col-sm-3 col-form-label btn btn-dark">Se connecter</button>
+                        <button type="submit" class="col-sm-3 btn btn-dark">Se connecter</button>
                     </div>
                 </div>
             </div>
@@ -124,7 +125,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="linkInscription" class=" col-sm-3 col-form-label btn btn-dark">Sauvegarder</button>
+                        <button type="button" id="linkInscription" class="col-sm-3 btn btn-dark">Sauvegarder</button>
                     </div>
                 </div>
             </div>
@@ -146,7 +147,12 @@
                             <P>Siège social Diakustom </br>7 rue de l'étuve </br>54210 Saint Nicolas de Port </br> 06.29.13.26.12 </br> diakustom@gmail.com</p>
                             <p>En accédant ou en utilisant notre service, vous signifiez que vous avez lu, compris et accepté la collecte, le stockage, l'utilisation et la divulgation de vos informations personnelles.</P>
                             <h6>INFORMATIONS PERSONNELLES</h6>
-                            <P>Nous ne collectons, partageons, vendons, envoyons ou utilisons aucune information personnelle, à l'exception des informations personnelles que vous soumettez lorsque vous nous envoyez un courrier électronique, envoyez un rapport d'erreur, participez à des sondages en ligne et à d'autres activités. </br> Nous ne pouvons utiliser les informations personnelles que vous avez fournies que pour les objectifs suivants: </p> <li> Fournir et améliorer nos produits et services</li> <li> Fournir un service de meilleure qualité </li><li> Gérer des sondages en ligne et autres activités auxquelles vous avez participé.</li> </br>
+                            <P>Nous ne collectons, partageons, vendons, envoyons ou utilisons aucune information personnelle, à l'exception des informations personnelles que vous soumettez lorsque vous nous envoyez un courrier électronique, envoyez un rapport d'erreur, participez à des sondages en ligne et à d'autres activités. </br> Nous ne pouvons utiliser les informations personnelles que vous avez fournies que pour les objectifs suivants: </p> 
+                                <ul>
+                                    <li> Fournir et améliorer nos produits et services</li> 
+                                    <li> Fournir un service de meilleure qualité </li>
+                                    <li> Gérer des sondages en ligne et autres activités auxquelles vous avez participé.</li>
+                                </ul> 
                             <h6>PROTECTION DES PERSONNES</h6>
                             <P>Nous prenons des mesures de sécurité appropriées pour protéger vos informations contre tout accès non autorisé et toute divulgation. Sachez que vous êtes responsable des informations que vous transmettez à d’autres services (par exemple, lorsque vous soumettez des commentaires sur nos produits). Veuillez donc prendre les précautions nécessaires lorsque vous utilisez d'autres services pour protéger vos informations personnelles.</P>
                             <h6>MISES À JOUR DE CETTE POLITIQUE</h6>
@@ -155,7 +161,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary col-sm-3 btn btn-dark" data-dismiss="modal">Fermer</button>
+                        <button type="button" class="col-sm-3 btn btn-dark" data-dismiss="modal">Fermer</button>
                     </div>
                 </div>
             </div>
@@ -175,12 +181,40 @@
                             ...
                         </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">Payer ma commande</button>
+                        <button type="button" class="col-sm-3 btn btn-dark">Paiement</button>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Modal Live Vendeur-->
+        <div class="modal fade" id="modalLive" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Live vendeur</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+
+
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">Historique</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="10"></textarea>
+                        </div>
+                    </div>
+
+
+
+                    <div class="modal-footer">
+                    <button type="button" class="col-sm-3 btn btn-dark">Envoyer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
 </body>
 </html>

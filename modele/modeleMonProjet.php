@@ -47,3 +47,50 @@ function userConnection() {
     $reponse->execute();
     return $reponse;
 }
+
+// affichage des messages
+function showMessage(){
+	$bdd = coBdd();
+	$reponse = $bdd->query('
+	    SELECT *
+	    FROM chat 
+	    LEFT JOIN utilisateur 
+	        ON chat.id_utilisateur = utilisateur.id 
+	    ORDER BY chat.id DESC
+	');
+	return $reponse;
+}
+
+// insertion des messages
+function insererMessage($msg, $userId) {
+	$bdd = coBdd();
+	$req = $bdd->prepare('
+		INSERT INTO chat (message, id_utilisateur) 
+		VALUES (:message, :userId)');
+    $req->bindParam(':message', $msg);
+    $req->bindParam(':userId', $userId);
+    $req->execute();
+}
+
+// recuperations articles Bdd
+function getArticles() {
+	$bdd = coBdd();
+	$req = $bdd->query('
+	    SELECT * 
+		FROM article 
+	');
+	$req->execute();
+	return $req;
+}
+
+// recuperations articles Bdd
+function getArticle($id) {
+	$bdd = coBdd();
+	$req = $bdd->query('
+	    SELECT * 
+		FROM article 
+		WHERE article.id = ' . $id .'
+	');
+	$req->execute();
+	return $req;
+}
