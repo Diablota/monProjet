@@ -1,0 +1,69 @@
+{% extends "masterPage.html.twig" %}
+
+{% block title %}Accueil - {% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="row"style="border: 5px black solid ; background-color: whitesmoke; padding: 40px 40px 40px 40px">
+            <div class="col-md-3">
+                <a href="index.php?idArticle={{ article.id }}">
+                <img class="imgArticle" src="src/img/articlesImage/{{ article.image_src }}.png" alt="{{ article.libelle }}" id='parametre' class='categImage'  />
+                </a>
+            </div>
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-8">
+                        <label for="prix"><h3>{{ article.libelle }}</h3></label>
+                    </div>
+<!--Prix par la BDD-->
+                    <div class="col-md-4" style="border: 5px black solid; text-align: center; color:#8ad0b0; border-radius: 8px;";>
+                        <label class="label"><h4>Prix: {{ article.prix }} €</h4></label>
+                    </div>
+                </div></br>
+                <p style="height: 82px; overflow: hidden; text-overflow: ellipsis">{{ article.description }}</p>
+                <div class="row">
+<!--Couleur par la BDD-->
+                    <div class="col-md-4">
+                        <div class="dropdown">
+                            <!--<button class="btn btn-secondary col-md-10 dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Couleur</button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">-->
+                                <select name="couleurs">
+                                {% for couleur in articleCouleur %}
+                                    <option value={{couleur.id}}>{{ couleur.libelle }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+<!--Taille par la BDD-->
+                    <div class="col-md-4">
+                        <div class="dropdown">
+                            <!--<button class="btn btn-secondary col-md-10 dropdown-toggle" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Taille</button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu3">-->
+                                <select name="tailles">
+                            {% for taille in articleTaille %}
+                            <option value={{taille.id}}>{{ taille.libelle }}</option>
+                            {% endfor %}
+                                </select>
+                        </div>
+                    </div>
+<!--Quantité article-->
+                    <div class="col-md-4">
+                            <input id="number" name= "quantite" type="number" value="1" class="col-md-10" style= "border-radius: 6px";>
+                    </div>
+                </div></br>
+<!--Prix par la BDD-->
+                    <div class="row">
+                        <div class="col-md-9"></div>
+                        <div class="col-md-3">
+                            <a href="index.php?idArticle={{ article.id }}"<button class="btn btn-dark btn-noDecoration" >Ajouter au panier</button></a>
+                        </div>
+                </div>
+            </div>
+        </div>  
+    </div>
+    <div class="col-md-1"></div>
+</div> 
+    {% endblock %}

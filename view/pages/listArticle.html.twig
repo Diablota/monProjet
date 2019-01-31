@@ -1,0 +1,31 @@
+{% extends "masterPage.html.twig" %}
+
+{% block title %}Accueil - {% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-sm-10">
+        <div class="row">
+            {% set ok = 0 %}
+            {% for article in articles %}
+                {% set ok = ok + 1 %}
+                {% if ok is divisible by(2) %}
+                    <div class="col-sm-6">    
+                        {% include 'pages/elements/article.html.twig' with {'article': article } %}
+                    </div>
+                    </div><div class="row">
+                {% else %}
+                    <div class="col-sm-6">    
+                        {% include 'pages/elements/article.html.twig' with {'article': article } %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+            {% if not ok is divisible by(2) %}
+                <div class="col-sm-6"><div class="row" style="border: 5px black solid ;  background-color: whitesmoke;height: 200px"><div class="col-sm-12"></div></div></div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "masterPage.html.twig" %}
+
+{% block title %} Recherche {% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class= "col-md-5"></div>
+    <div class= "col-md-2 encadreRecherche">
+        {% if recherches|length >0 %} 
+            <ul>
+                {% for recherche in recherches %}
+                    <a href="index.php?idArticle={{ recherche.id }}" >
+                        <li class="lien-noDeco">{{ recherche.libelle }}</li>
+                    </a>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>Aucun résultat pour: </br> <li>{{articleRechercher}}</li></p>
+        {% endif %}
+    </div>
+    <div class= "col-md-5"></div>
+</div>
+{% endblock %}

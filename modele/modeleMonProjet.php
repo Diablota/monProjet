@@ -48,49 +48,179 @@ function userConnection() {
     return $reponse;
 }
 
-// affichage des messages
-function showMessage(){
-	$bdd = coBdd();
-	$reponse = $bdd->query('
-	    SELECT *
-	    FROM chat 
-	    LEFT JOIN utilisateur 
-	        ON chat.id_utilisateur = utilisateur.id 
-	    ORDER BY chat.id DESC
-	');
-	return $reponse;
-}
-
-// insertion des messages
-function insererMessage($msg, $userId) {
+// recuperations tout les articles Bdd
+function getArticles($id) {
 	$bdd = coBdd();
 	$req = $bdd->prepare('
-		INSERT INTO chat (message, id_utilisateur) 
-		VALUES (:message, :userId)');
-    $req->bindParam(':message', $msg);
-    $req->bindParam(':userId', $userId);
-    $req->execute();
-}
-
-// recuperations articles Bdd
-function getArticles() {
-	$bdd = coBdd();
-	$req = $bdd->query('
 	    SELECT * 
-		FROM article 
+		FROM article
+		WHERE id_sous_categorie = ?
 	');
-	$req->execute();
+	$req->execute([$id]);
 	return $req;
 }
 
-// recuperations articles Bdd
+// recuperations un article Bdd
 function getArticle($id) {
 	$bdd = coBdd();
-	$req = $bdd->query('
+	$req = $bdd->prepare('
 	    SELECT * 
 		FROM article 
 		WHERE article.id = ' . $id .'
 	');
 	$req->execute();
+	$req = $req->fetchall();
 	return $req;
 }
+
+// recuperations articles par catégorie Bdd
+function getArticleCategorie($id) {
+	$bdd = coBdd();
+	$req = $bdd->query('
+	    SELECT * 
+		FROM article 
+		WHERE article.id_sous_categorie = ' . $id .'
+	');
+	$req->execute();
+	return $req;
+}
+
+//recuper catégorie de la BDD
+function getCategories() {
+	$bdd = coBdd();
+	$req = $bdd->query('
+		SELECT * 
+		FROM categorie
+	');
+	$req->execute();
+	return $req;
+}
+
+function getSousCategories($id) {
+	$bdd = coBdd();
+	$req = $bdd->query('
+		SELECT * 
+		FROM sous_categorie
+		WHERE id_categorie = '.$id.'
+	');
+	$req->execute();
+	return $req;
+}
+
+function getCouleur($id) {
+	$bdd = coBdd();
+	$req = $bdd->query('
+		SELECT *
+		FROM article_couleur
+		LEFT JOIN couleur
+		    ON couleur.id = article_couleur.id_couleur
+		WHERE id_article = '.$id.'
+	');
+	$req->execute();
+	$req = $req->fetchall();
+	return $req;
+}
+
+function getCouleurs($id) {
+	$bdd = coBdd();
+	$req = $bdd->query('
+		SELECT *
+		FROM couleur
+		WHERE id = '.$id.'
+	');
+	$req->execute();
+	return $req;
+}
+
+function getTaille($id) {
+	$bdd = coBdd();
+	$req = $bdd->query('
+		SELECT *
+		FROM article_taille
+		LEFT JOIN taille
+		    ON taille.id = article_taille.id_taille
+		WHERE id_article = '.$id.'
+	');
+	$req->execute();
+	$req = $req->fetchall();
+	return $req;
+}
+
+function getTailles($id) {
+	$bdd = coBdd();
+	$req = $bdd->query('
+		SELECT *
+		FROM taille
+		WHERE id = '.$id.'
+	');
+	$req->execute();
+	return $req;
+}
+
+function rechercheArticles($id){
+	$bdd = coBdd();
+	$req = $bdd->query('
+		SELECT *
+		FROM article
+		WHERE id_sous_categorie = '.$id.'
+		ORDER BY id DESC
+	');
+	$req->execute();
+	return $req;
+}
+
+//Recuperation de la BDD table articlePanier
+function insertArticlePanier() {
+	$bdd = coBdd();
+	$req = $bdd->prepare('
+		INSERT INTO article_panier (id_article, id_panier, id_couleur, id_taille, quantite) 
+		VALUES (:id_article, :id_panier, :id_couleur, :id_taille, :quantite)
+	');
+    $req->bindParam(':id_article', $_GET['idArticle'], PDO::PARAM_INT);
+	$req->bindParam(':id_panier', $idPanier, PDO::PARAM_INT);
+	$req->bindParam(':id_couleur', $_POST['couleur'], PDO::PARAM_INT);
+	$req->bindParam(':id_taille', $_POST['taille'], PDO::PARAM_INT);
+	$req->bindParam(':quantite', $_POST['quantite'], PDO::PARAM_INT);
+    $req->execute();
+}
+
+//Recuperation de la BDD table panier
+function insertPanier() {
+	$bdd = coBdd();
+	$req = $bdd->prepare('
+		INSERT INTO panier (date, id_utilisateur, id_adresse, id_facturation)
+		VALUES (:date, :id_utilisateur, :id_adresse, :id_facturation)
+	');
+    $req->bindParam(':date', $date, PDO::PARAM_STR);
+	$req->bindParam(':id_utilisateur', $_SESSION['idUtilisateur'], PDO::PARAM_INT);
+	$req->bindParam(':id_adresse', $idAdresse, PDO::PARAM_INT);
+	$req->bindParam(':id_facturation', $idFacturation, PDO::PARAM_INT);
+    $req->execute();
+}
+
+//Recuperation de la BDD table facturation (adresse facturation= adresse domicile)
+function insertFacturation() {
+	$bdd = coBdd();
+	$req = $bdd->prepare('
+		INSERT INTO facturation (adresse_facturation, cp_facturation, ville_facturation)
+		VALUES (:adresse_facturation, :cp_facturation, :ville_facturation)
+	');
+	$req->bindParam(':adresse_facturation', $adresseFacturation, PDO::PARAM_STR);
+	$req->bindParam(':cp_facturation', $cpFacturation, PDO::PARAM_STR);
+	$req->bindParam(':ville_facturation', $villeFacturation, PDO::PARAM_STR);
+    $req->execute();
+}
+
+//Recuperation de la BDD table adresse (adresse = adresse livraison)
+function insertAdresse() {
+	$bdd = coBdd();
+	$req = $bdd->prepare('
+		INSERT INTO adresse (adresse_livraison, cp_livraison, ville_livraison)
+		VALUES (:adresse_livraison, :cp_livraison, :ville_livraison)
+	');
+	$req->bindParam(':adresse_livraison', $adresseLivraison, PDO::PARAM_STR);
+	$req->bindParam(':cp_livraison', $cpLivraison, PDO::PARAM_STR);
+	$req->bindParam(':ville_livraison', $villeLivraison, PDO::PARAM_STR);
+    $req->execute();
+}
+

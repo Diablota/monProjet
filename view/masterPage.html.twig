@@ -13,29 +13,79 @@
 <body>
     <form id="formNav" action="index.php" method="POST">
         <input type="hidden" id="controllerAction" name="controllerAction" value="index" />
+
+        <!-- Entête -->
         <header class="col-md-12 entete">
             <div class="row">
-                <div class="col-md-1">
+                <div class="col-md-2">
                     <a href="index.php" class="float"><img src= "src/img/display/logoPetit.png" height="40px" alt="index" title="index" ></a>
                 </div>
-                <div class="col-md-3"></div>
+                <div class="col-md-2">
+                    <div class="bonjourUtilisateur"> 
+                        {% if session is defined %}
+                            Bonjour {{ session.prenom }}
+                        {% endif %}
+                    </div>
+                </div>
                 <div class="col-md-8 text-right">
-                    <a id="linkIndex" href="#"><button class="col-md-2 btn btn-light " type="button"> Accueil</button> </a>
-                    <!--- <a id="linkPanier" href="#"> <button class="col-md-2 btn btn-light" type="button">Mon panier</button> </a> -->
-                    <button type="button" class="col-md-2 btn btn-light" data-toggle="modal" data-target="#modalPanier">Mon panier</button>
-                    <button type="button" class="col-md-2 btn btn-light" data-toggle="modal" data-target="#connectionModal"> Connexion</button>
+                    <div class= "row">
+                        <button id="btnIndex" class="col-md-3 btn btn-light"> Accueil</button>
+                        <button class="col-md-3 btn btn-light" id="linkPanier" type="button"> Mon panier</button> 
+                        {% if session.prenom is defined %}
+                            <button type="button" class="col-md-3 btn btn-light" data-toggle="" data-target="">Mon compte</button>
+                            <input type="button" id="btnlogout" value="Se déconnecter" class="col-sm-3 btn btn-light"  name="controllerAction" />
+                            {% else %}
+                            <button type="button" class="col-md-3 btn btn-light" data-toggle="modal" data-target="#connectionModal"> Connexion</button>
+                        {% endif %}
+                    </div>
                 </div>	
             </div>
         </header>
+
         <div style="height: 64px;"></div>
         {% block content %}{% endblock %}
-            <footer class="pieddepage"> 
-                <div class="row">
-                    <button type="button" class="btn btn-link col-md-3 offset-md-4 btn-noDecoration" data-toggle="modal" data-target="#mentionModal">Mentions légales / Contacts</button>
-                    <button type="button" class="btn btn-light col-md-4 offset-md-1" data-toggle="modal" data-target="#modalLive">Live vendeur
-                    </button>
+
+        <!-- Div chat -->
+
+        <div class="row"  style="position: fixed;
+        bottom: 46px;
+        width: 100%;z-index:100000">
+            <div class="col-md-4">&nbsp;</div>
+            <div class="col-md-1">&nbsp;</div>
+            <div class="col-md-3">&nbsp;</div>
+            <div id="displayLive" class="encadreChat col-md-4 cacheTexte">
+                <div style="border: 5px solid #6c757d;background-color: whitesmoke;">
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1"></label>
+                        <p>{{chat.date }}</p>
+                        <p class="form-control zoneTexte" id="exampleFormControlTextarea1" rows="10">
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Ecrivez nous en live!</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea2" rows="1"></textarea>
+                    </div>
+                    <button id="envMsg" type="button" class="col-md-4 offset-md-8 btn btn-dark">Envoyer</button>
                 </div>
-            </footer>
+            </div>
+        </div>
+    
+        <!-- Footer -->
+        <footer class="row pieddepage"> 
+            <div class="col-md-4">
+                    <input class="form-control" name = "recherche" type="search" placeholder="Tapez votre recherche.." aria-label="Search">
+            </div>
+            <div class="col-md-1">   
+                <button id="btnEnvRech" class="btn btn-outline-secondary">Go!</button>
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-link btn-noDecoration" data-toggle="modal" data-target="#mentionModal">Mentions légales / Contacts</button>
+            </div>
+            <div class="col-md-4">
+                <button type="button" class="btn btn-light col-md-12 " id="liveVendeur" data-toggle="modal" data-target="#modalLive">Live vendeur
+                </button>
+            </div>
+        </footer>
 
         <!--  MODAL CONNEXION --> 
         <div class="modal fade" id="connectionModal" tabindex="-1" role="dialog" aria-labelledby="connectionModalLabel" aria-hidden="true">
@@ -66,7 +116,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="col-sm-3 btn btn-dark">Se connecter</button>
+                        <button id="btnConnection" class="col-sm-3 btn btn-dark">Se connecter</button>
                     </div>
                 </div>
             </div>
@@ -167,54 +217,8 @@
             </div>
         </div> <!-- end modal -->
 
-        <!-- Modal Mon panier-->
-        <div class="modal fade" id="modalPanier" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Mon panier</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                        <div class="modal-body">
-                            ...
-                        </div>
-                    <div class="modal-footer">
-                        <button type="button" class="col-sm-3 btn btn-dark">Paiement</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal Live Vendeur-->
-        <div class="modal fade" id="modalLive" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Live vendeur</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-
-
-
-                        <div class="form-group">
-                            <label for="exampleFormControlTextarea1">Historique</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="10"></textarea>
-                        </div>
-                    </div>
-
-
-
-                    <div class="modal-footer">
-                    <button type="button" class="col-sm-3 btn btn-dark">Envoyer</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+               
+            
     </form>
 </body>
 </html>

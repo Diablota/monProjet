@@ -1,0 +1,21 @@
+<div class="row" style="border: 5px black solid ;  background-color: whitesmoke;height: 200px">
+    <div class="col-sm-5">
+        <div class="row">
+            <a href="index.php?idArticle={{ article.id }}">
+                <img class="imgArticle" src="src/img/articlesImage/{{ article.image_src }}.png" alt="{{ article.libelle }}" id='parametre' class='categImage' ;/>
+            </a>
+        </div>
+    </div>
+    <div class="col-sm-7">
+        <label for="prix"><h3>{{ article.libelle }}</h3></label>
+        <p style="height: 82px; overflow: hidden; text-overflow: ellipsis">{{ article.description }}</p>
+        <div class="row">
+            <div class="col-md-6">
+                <label class="label">Prix: {{ article.prix }} €</label>
+            </div>
+            <div class="col-md-6">
+                <a href="index.php?idArticle={{ article.id }}"<button class="btn btn-dark btn-noDecoration">Voir l'article</button></a>
+            </div>
+        </div>
+    </div>
+</div>
