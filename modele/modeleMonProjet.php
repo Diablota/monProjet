@@ -121,6 +121,38 @@ function getCouleur($id) {
 	return $req;
 }
 
+function getCouleurss() {
+	$bdd = coBdd();
+	$req = $bdd->query('
+		SELECT *
+		FROM couleur
+	');
+	$req->execute();
+	$req = $req->fetchall();
+	return $req;
+}
+
+function getTailless() {
+	$bdd = coBdd();
+	$req = $bdd->query('
+		SELECT *
+		FROM taille
+	');
+	$req->execute();
+	$req = $req->fetchall();
+	return $req;
+}
+
+function getArticless() {
+	$bdd = coBdd();
+	$req = $bdd->query('
+		SELECT *
+		FROM article
+	');
+	$req->execute();
+	$req = $req->fetchall();
+	return $req;
+}
 function getCouleurs($id) {
 	$bdd = coBdd();
 	$req = $bdd->query('
@@ -168,24 +200,58 @@ function rechercheArticles($id){
 	$req->execute();
 	return $req;
 }
+function getPanier($id) {
+	$bdd = coBdd();
+	$req = $bdd->query('
+		SELECT *
+		FROM panier
+		WHERE id_utilisateur = '.$id.'
+	');
+	$req->execute();
+	return $req;
+}
+function getArticlePanier($id) {
+	$bdd = coBdd();
+	$req = $bdd->query('
+		SELECT *
+		FROM article_panier
+		WHERE id_panier = '.$id.'
+	');
+	$req->execute();
+	return $req;
+}
 
+//changement quantite dans le panier si l'article à deja ete ajouter
+function updateArticlePanier($id, $quantite) {
+	$bdd = coBdd();
+	$req = $bdd->query('
+		UPDATE article_panier
+		SET quantite='.$quantite.'
+		WHERE id_panier = '.$id.'
+		AND id_article ='.$_POST['idPanierArticle'].'
+		AND id_couleur ='.$_POST['couleurs'].'
+		AND id_taille ='.$_POST['tailles'].'
+	');
+	$req->execute();
+	return $req;
+}
 //Recuperation de la BDD table articlePanier
-function insertArticlePanier() {
+function insertArticlePanier($idPanier) {
 	$bdd = coBdd();
 	$req = $bdd->prepare('
 		INSERT INTO article_panier (id_article, id_panier, id_couleur, id_taille, quantite) 
 		VALUES (:id_article, :id_panier, :id_couleur, :id_taille, :quantite)
 	');
-    $req->bindParam(':id_article', $_GET['idArticle'], PDO::PARAM_INT);
+    $req->bindParam(':id_article', $_POST['idPanierArticle'], PDO::PARAM_INT);
 	$req->bindParam(':id_panier', $idPanier, PDO::PARAM_INT);
-	$req->bindParam(':id_couleur', $_POST['couleur'], PDO::PARAM_INT);
-	$req->bindParam(':id_taille', $_POST['taille'], PDO::PARAM_INT);
+	$req->bindParam(':id_couleur', $_POST['couleurs'], PDO::PARAM_INT);
+	$req->bindParam(':id_taille', $_POST['tailles'], PDO::PARAM_INT);
 	$req->bindParam(':quantite', $_POST['quantite'], PDO::PARAM_INT);
     $req->execute();
 }
 
 //Recuperation de la BDD table panier
-function insertPanier() {
+function insertPanier($date, $idAdresse, $idFacturation) {
 	$bdd = coBdd();
 	$req = $bdd->prepare('
 		INSERT INTO panier (date, id_utilisateur, id_adresse, id_facturation)

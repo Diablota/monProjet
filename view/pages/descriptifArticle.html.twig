@@ -3,7 +3,29 @@
 {% block title %}Accueil - {% endblock %}
 
 {% block content %}
-
+<!-- Déroulents des catégories -->
+<div class="row">
+		{% for categorie in categories %}
+			<div class="col-md-4">
+				<div class="dropdown">
+					<button class="col-sm-12 btn btn-secondary dropdown-toggle" 
+					type="button" 
+					id="dropdownMenu1" 
+					data-toggle="dropdown" 
+					aria-haspopup="true" 
+					aria-expanded="false"> {{ categorie.libelle }}
+					</button>
+					<div class="col-sm-12 dropdown-menu textCentre" aria-labelledby="dropdownMenu1">
+						<hr/ class= "separation">
+						{% for subcat in categorie.subcat %}
+							<button class="dropdown-item"><a href="index.php?subcat={{ subcat.id }}">{{ subcat.libelle }}</a></button>
+						<hr/ class= "separation">
+						{% endfor %}
+					</div>
+				</div>	
+			</div>
+		{% endfor %}
+	</div>
 <div class="row">
     <div class="col-md-1"></div>
     <div class="col-md-10">
@@ -54,11 +76,15 @@
                             <input id="number" name= "quantite" type="number" value="1" class="col-md-10" style= "border-radius: 6px";>
                     </div>
                 </div></br>
+<!-- Bouton caché -->
+                    <input name="idPanierArticle" type="hidden" value={{ article.id }}>
 <!--Prix par la BDD-->
                     <div class="row">
                         <div class="col-md-9"></div>
                         <div class="col-md-3">
-                            <a href="index.php?idArticle={{ article.id }}"<button class="btn btn-dark btn-noDecoration" >Ajouter au panier</button></a>
+                        <button id="btnEnvoiePanier" class="btn btn-dark btn-noDecoration">Ajouter au panier</button>
+                           <!-- <a href="index.php?idPanierArticle={{ article.id }}"<button class="btn btn-dark btn-noDecoration" >Ajouter au panier</button></a>
+                           -->
                         </div>
                 </div>
             </div>
