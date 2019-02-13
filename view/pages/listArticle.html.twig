@@ -1,10 +1,10 @@
 {% extends "masterPage.html.twig" %}
 
-{% block title %}Accueil - {% endblock %}
+{% block title %} Article {% endblock %}
 
 {% block content %}
 <!-- Déroulents des catégories -->
-<div class="row">
+<div class="row col-md-12" style="width:100%; margin:0;">
 		{% for categorie in categories %}
 			<div class="col-md-4">
 				<div class="dropdown">

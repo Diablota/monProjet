@@ -1,10 +1,10 @@
 {% extends "masterPage.html.twig" %}
 
-{% block title %}panier - {% endblock %}
+{% block title %} Panier {% endblock %}
 
 {% block content %}
 <!-- Déroulents des catégories -->
-<div class="row">
+<div class="row col-md-12" style="width:100%; margin:0;">
 	{% for categorie in categories %}
 		<div class="col-md-4">
 			<div class="dropdown">
@@ -27,10 +27,12 @@
 	{% endfor %}
 </div>
 
+<div style="width:100%; height: 10vh;"></div>
+
 <div class="row">
     <div class="col-md-1"></div>
-    <div class="col-md-10">
-        <div class="row">
+    <div class="col-md-10" style= "border-top:5px solid black; border-left:5px solid black; border-right:5px solid black;">
+        <div class="row" style=" background-color: whitesmoke">
             <div class="col-md-2 bordPanier">
             Libellé
             </div>
@@ -57,8 +59,8 @@
 {% for articlesPanier in articlesPaniers %} 
 <div class="row">
     <div class="col-md-1"></div>
-    <div class="col-md-10">
-        <div class="row">
+    <div class="col-md-10"  style= "border-left:5px solid black; border-right:5px solid black;">
+        <div class="row" style=" background-color: whitesmoke">
             <div class="col-md-2 bordPanier">
                 {% for article in articles %}
                     {% if articlesPanier.id_article == article.id %}
@@ -104,17 +106,30 @@
 </div>
 {% endfor %}
 <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10">
-            <div class="row">
-                <div class="col-md-10 bordPanier">
-                Total:
-                </div>
-                <div class="col-md-2 bordPanier">
-                {{total}}€
-                </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-10" style= "border-bottom:5px solid black; border-left:5px solid black; border-right:5px solid black;">
+        <div class="row" style=" background-color: whitesmoke">
+            <div class="col-md-10 bordPanier">
+            Total:
+            </div>
+            <div class="col-md-2 bordPanier">
+            {{total}}€
             </div>
         </div>
-        <div class="col-md-1"></div>
     </div>
-{% endblock %}
+    <div class="col-md-1"></div>
+</div>
+
+<div style="width:100%; height: 10vh;"></div>
+
+<div class="row">
+    <div class="col-md-9"></div>
+    <div class="col-md-2">
+        <button type="button" class=" col-md-12 btn btn-dark">Payer</button>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+
+
+
+    {% endblock %}

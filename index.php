@@ -26,7 +26,7 @@ if(isset($_GET['subcat'])) {
     $_POST['controllerAction'] = 'subcat';
 }
 
-// 
+// connexion
 switch ($_POST['controllerAction']) {
     case 'connection':
         $reponse = userConnection();
@@ -38,9 +38,24 @@ switch ($_POST['controllerAction']) {
                 $_SESSION['prenom'] = $donnees['prenom'];
             }
         }
-
+        $categories = getCategories();
+        $tabCategorie = array();
+        $i = 0;
+        while ($cat = $categories->fetch())
+        {
+            $tabCategorie[$i] = $cat;
+            
+            $subcats = getSousCategories($cat['id']);
+            while ($subcat = $subcats->fetch()) 
+            {
+                $tabCategorie[$i]['subcat'][] = $subcat;
+            }
+            $i++;
+        }
         echo $twig->render('pages/monprojet_acceuil.html.twig', array(
             'session' => $_SESSION,
+            'categories' => $tabCategorie,
+
         ));
         break;
         
@@ -56,9 +71,7 @@ switch ($_POST['controllerAction']) {
 //chargement de la page acceuil
     case 'index':
         $categories = getCategories();
-
         $tabCategorie = array();
-
         $i = 0;
         while ($cat = $categories->fetch())
         {
@@ -71,12 +84,12 @@ switch ($_POST['controllerAction']) {
             }
             $i++;
         }
-        
         echo $twig->render('pages/monprojet_acceuil.html.twig', array(
             'session' => $_SESSION,
             'categories' => $tabCategorie,
         ));
         break;
+
 //
     case 'recherche':
         $recherche = htmlspecialchars($_POST['recherche']);
@@ -112,7 +125,6 @@ switch ($_POST['controllerAction']) {
                 $idRecherche=7;
             }
         }
-
         $rechercheArticles = rechercheArticles($idRecherche);
         $tabRecherche = array();
         $i = 0;
@@ -123,9 +135,7 @@ switch ($_POST['controllerAction']) {
         }
         //insertion du menu deroulant des categories sur la page recherche
         $categories = getCategories();
-
         $tabCategorie = array();
-
         $i = 0;
         while ($cat = $categories->fetch())
         {
@@ -147,23 +157,20 @@ switch ($_POST['controllerAction']) {
         break;
 
     case 'descriptifArticle':
-         //insertion du menu deroulant des categories sur la page descriptif article
-         $categories = getCategories();
-
-         $tabCategorie = array();
- 
-         $i = 0;
-         while ($cat = $categories->fetch())
-         {
-             $tabCategorie[$i] = $cat;
-             
-             $subcats = getSousCategories($cat['id']);
-             while ($subcat = $subcats->fetch()) 
-             {
-                 $tabCategorie[$i]['subcat'][] = $subcat;
-             }
-             $i++;
-         }
+        //insertion du menu deroulant des categories sur la page descriptif article
+        $categories = getCategories();
+        $tabCategorie = array();
+        $i = 0;
+        while ($cat = $categories->fetch())
+        {
+            $tabCategorie[$i] = $cat;
+            $subcats = getSousCategories($cat['id']);
+            while ($subcat = $subcats->fetch()) 
+            {
+                $tabCategorie[$i]['subcat'][] = $subcat;
+            }
+            $i++;
+        }
         if(isset($_GET['idArticle'])) {
             $article = getArticle($_GET['idArticle']);
             echo $twig->render('descriptifArticles.html.twig', array(
@@ -179,23 +186,20 @@ switch ($_POST['controllerAction']) {
 
 //chargement des pages articles ( par sous_catégorie Bdd)
     case 'subcat':
-     //insertion du menu deroulant des categories sur la page list article
-     $categories = getCategories();
-
-     $tabCategorie = array();
-
-     $i = 0;
-     while ($cat = $categories->fetch())
-     {
-         $tabCategorie[$i] = $cat;
-         
-         $subcats = getSousCategories($cat['id']);
-         while ($subcat = $subcats->fetch()) 
-         {
-             $tabCategorie[$i]['subcat'][] = $subcat;
-         }
-         $i++;
-     }
+    //insertion du menu deroulant des categories sur la page list article
+    $categories = getCategories();
+    $tabCategorie = array();
+    $i = 0;
+    while ($cat = $categories->fetch())
+    {
+        $tabCategorie[$i] = $cat;
+        $subcats = getSousCategories($cat['id']);
+        while ($subcat = $subcats->fetch()) 
+        {
+            $tabCategorie[$i]['subcat'][] = $subcat;
+        }
+        $i++;
+    }
         $articles = getArticles($_GET['subcat']);         
         echo $twig->render('pages/listArticle.html.twig', array(
             'articles' => $articles,
@@ -206,23 +210,24 @@ switch ($_POST['controllerAction']) {
 
 //chargement de la page panier
     case 'panier':
-     //insertion du menu deroulant des categories sur la page panier
-     $categories = getCategories();
+    if( !isset($_SESSION['idUtilisateur'])){
+        header('Location: index.php');
 
-     $tabCategorie = array();
-
-     $i = 0;
-     while ($cat = $categories->fetch())
-     {
-         $tabCategorie[$i] = $cat;
-         
-         $subcats = getSousCategories($cat['id']);
-         while ($subcat = $subcats->fetch()) 
-         {
-             $tabCategorie[$i]['subcat'][] = $subcat;
-         }
-         $i++;
-     }
+    }
+    //insertion du menu deroulant des categories sur la page panier
+    $categories = getCategories();
+    $tabCategorie = array();
+    $i = 0;
+    while ($cat = $categories->fetch())
+    {
+        $tabCategorie[$i] = $cat;
+        $subcats = getSousCategories($cat['id']);
+        while ($subcat = $subcats->fetch()) 
+        {
+            $tabCategorie[$i]['subcat'][] = $subcat;
+        }
+        $i++;
+    }
         $mesPaniers = getPanier($_SESSION['idUtilisateur']);
         $monPanier="";
         while ($unPanier = $mesPaniers->fetch()) 
@@ -264,38 +269,56 @@ echo $twig->render('pages/monprojet_moncompte.html.twig', array(
 ));
 break;
 
-//
+//deconnexion
     case 'logout':
         session_unset();
-        echo $twig->render('pages/monprojet_acceuil.html.twig', array(
-            'session' => $_SESSION,
-        ));
+        header('Location: index.php');
+
         break;
 
 //
     case 'articleDetails':
+        //insertion du menu deroulant des categories sur la page panier
+        $categories = getCategories();
+        $tabCategorie = array();
+        $i = 0;
+        while ($cat = $categories->fetch())
+        {
+            $tabCategorie[$i] = $cat;
+            $subcats = getSousCategories($cat['id']);
+            while ($subcat = $subcats->fetch()) 
+            {
+                $tabCategorie[$i]['subcat'][] = $subcat;
+            }
+            $i++;
+        }
         $monArticle = getArticle($_GET['idArticle']);
         /*Chargement BDD des couleurs*/
         $couleurs=getCouleur($_GET['idArticle']);
         /*Chargement BDD des tailles*/
         $tailles=getTaille($_GET['idArticle']);
-
         echo $twig->render('pages/descriptifArticle.html.twig', array(
             'article' => $monArticle[0],
             'session' => $_SESSION,
             'articleCouleur' =>$couleurs,
             'articleTaille' =>$tailles,
+            'categories' => $tabCategorie,
         ));
-        break;
+    break;
+
 //renvoi sur la page d'acceuil si pas d'article correspondant dans la BDD
-        default:
-        echo $twig->render('pages/monprojet_acceuil.html.twig', array(
-            'session' => $_SESSION,
-        ));
-        break;
+    default:
+    echo $twig->render('pages/monprojet_acceuil.html.twig', array(
+        'session' => $_SESSION,
+    ));
+    break;
 
 //
     case 'insertionPanier':
+    if( !isset($_SESSION['idUtilisateur'])){
+        header('Location: index.php?idArticle='.$_POST['idPanierArticle']);
+
+    }
         $mesPaniers = getPanier($_SESSION['idUtilisateur']);
         $monPanier="";
         while ($unPanier = $mesPaniers->fetch())
@@ -324,4 +347,6 @@ break;
             }
         }
         header('Location: index.php?idArticle='.$_POST['idPanierArticle']);
-}
+    break;
+    }
+

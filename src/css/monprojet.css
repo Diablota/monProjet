@@ -2,20 +2,16 @@
 	position: fixed;
 	background-color: black;
 	padding: 10px; 
-	z-index: 10000;
+	z-index: 1100;
 }
 
 .bonjour{
-	/*position: absolute;
-	top: 5px;*/
-	margin-top:8px;
+	margin-top:7px;
 	color: white; 
 	text-align: right;
 }
 
 .utilisateur{
-	/*position: absolute;
-	top: 5px;*/
 	color: white;
 	text-align: left;
 	font-family: fantasy;
@@ -46,7 +42,7 @@ overflow-wrap: break-word; /*mets le texte à la ligne*/
 }
 
 body{
-	margin:0;
+	margin:0 auto;
 	padding:0;
 	background: url(../img/display/acceuilguitare2.jpg) no-repeat center fixed; 
 	-webkit-background-size: cover; /* pour anciens Chrome et Safari */
@@ -87,8 +83,8 @@ body{
 	position: fixed;
 	background-color: black;
 	padding: 10px;   
-	bottom: 0px;
-	width: 100%;
+	bottom: 0px; /* pour placer la barre en bas*/
+	width: 102%;
 	color: white;
 }
 

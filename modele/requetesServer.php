@@ -29,12 +29,14 @@ function showMessage(){
 
 // insertion des messages
 function insererMessage($msg, $userId) {
+	$date = date('Y-m-d H:i:s');
 	$bdd = coBdd();
 	$req = $bdd->prepare('
-		INSERT INTO chat (message, id_utilisateur) 
-		VALUES (:message, :userId)');
+		INSERT INTO chat (message, id_utilisateur, date) 
+		VALUES (:message, :userId, :date)');
     $req->bindParam(':message', $msg);
     $req->bindParam(':userId', $userId);
+    $req->bindParam(':date', $date);
     $req->execute();
 }
 if(isset($_POST['postMsgLive'])) {
