@@ -50,12 +50,8 @@ body{
 }
 
 .news{
-	padding:20px; /*pour donner une hauteur définie; padding: l'intérieur du cadre*/
-	width:600px;
-	text-align:left;
-    border:5px solid #6c757d;
+    border:5px solid black;
 	overflow-wrap: break-word;
-	margin-left: 50px;
 }
 
 .mamodal{
@@ -86,6 +82,12 @@ body{
 	bottom: 0px; /* pour placer la barre en bas*/
 	width: 102%;
 	color: white;
+}
+
+@media screen and (max-width: 640px) {
+	.pieddepage{
+		width: 105%;
+	}
 }
 
 .hiddenMsg{ /*style Event de l'inscription et de la connexion*/
@@ -124,6 +126,7 @@ background-image: -o-linear-gradient(left, #ccc, #333, #ccc);
 .encadreRecherche {
 	border:5px solid #6c757d;
 	margin-top: 100px;
+	padding: 20px 20px 10px 20px;
 }
 
 .lien-noDeco{
@@ -134,4 +137,29 @@ background-image: -o-linear-gradient(left, #ccc, #333, #ccc);
 .bordPanier {
 	border: 1px solid black;
 	text-align: center;
+}
+
+@media screen and (max-height:740px) {
+	#tailleModal {
+	height: 350px !important;
+	overflow-x: hidden;
+	}
+}
+
+.couleurTexte {
+	color: white;
+}
+
+/*zoom image articles*/
+.zoom {
+	background-color: rgba(0, 0, 0, 0);
+	transition: transform .2s; /* Animation */
+	width: 200px;
+	height: 200px;
+	margin: 0 auto;
+	margin-top: 45px;
+	border: 3px solid black;
+}
+.zoom:hover {
+	transform: scale(1.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }

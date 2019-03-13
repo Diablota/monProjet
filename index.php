@@ -2,7 +2,7 @@
 
 include_once('modele/modeleMonProjet.php');
 
-// Init Twig
+// Initialisation Twig
 require_once 'vendor/autoload.php';
 
 $loader = new Twig_Loader_Array(array(
@@ -14,6 +14,7 @@ $twig = new Twig_Environment($loader, [
 ]);
 $twig->addExtension(new Twig_Extension_Debug());
 
+// Controler les adresses envoyer par les routes
 if(!isset($_POST['controllerAction'])) $_POST['controllerAction'] = "index";
 
 if(isset($_GET['idArticle'])) {
@@ -26,9 +27,20 @@ if(isset($_GET['subcat'])) {
     $_POST['controllerAction'] = 'subcat';
 }
 
-// connexion
+
 switch ($_POST['controllerAction']) {
+
+    
+    // connexion et renvoi des information des pages de l'acceuil et creation de la facturation pour la relier a l'utilisateur
     case 'connection':
+        $news=getNews();
+        $newsCategorie = array();
+        $i = 0;
+        while ($new = $news->fetch())
+        {
+            $newsCategorie[$i] = $new;
+            $i++;
+        }
         $reponse = userConnection();
         while ($donnees = $reponse->fetch()) //fetch pour resultat ligne par ligne
         {
@@ -36,6 +48,21 @@ switch ($_POST['controllerAction']) {
                 $_SESSION['idUtilisateur'] = $donnees['id'];
                 $_SESSION['pseudo'] = $donnees['pseudo'];
                 $_SESSION['prenom'] = $donnees['prenom'];
+                $mesFacturations = getFacturation($_SESSION['idUtilisateur']);
+                $monFacturation="";
+                while ($unFacturation = $mesFacturations->fetch())
+                {
+                    $monFacturation=$unFacturation['id'];
+                }
+                if( $monFacturation==""){
+                    insertFacturation("", "", "");
+                    $mesFacturations = getFacturation2($_SESSION['idUtilisateur']);
+                    while ($unFacturation = $mesFacturations->fetch())
+                    {
+                        $monFacturation=$unFacturation['id'];
+                    }
+                    updateUserFacturation($monFacturation);
+                }
             }
         }
         $categories = getCategories();
@@ -44,7 +71,6 @@ switch ($_POST['controllerAction']) {
         while ($cat = $categories->fetch())
         {
             $tabCategorie[$i] = $cat;
-            
             $subcats = getSousCategories($cat['id']);
             while ($subcat = $subcats->fetch()) 
             {
@@ -52,31 +78,66 @@ switch ($_POST['controllerAction']) {
             }
             $i++;
         }
+        $imagesDir = 'src/img/articlesImage/';
+        $images = glob($imagesDir . '*.{jpg,jpeg,png,gif}', GLOB_BRACE);  
+        $randomImage = $images[array_rand($images)];
+        $randomImage1 = $images[array_rand($images)];
+        $randomImage2 = $images[array_rand($images)];
+        $randomImage3 = $images[array_rand($images)];
         echo $twig->render('pages/monprojet_acceuil.html.twig', array(
             'session' => $_SESSION,
             'categories' => $tabCategorie,
-
+            'news' => $newsCategorie[0],
+            'randomImage' => $randomImage,
+            'randomImage1' => $randomImage1,
+            'randomImage2' => $randomImage2,
+            'randomImage3' => $randomImage3,
         ));
-        break;
-        
-//
+    break;
+            
+    // inscription et renvoi des information des pages de l'acceuil
     case 'inscription':
         insertUser();
-        //inscription grace au model
+        $news=getNews();
+        $newsCategorie = array();
+        $i = 0;
+        while ($new = $news->fetch())
+        {
+            $newsCategorie[$i] = $new;
+            $i++;
+        }
+        $imagesDir = 'src/img/articlesImage/';
+        $images = glob($imagesDir . '*.{jpg,jpeg,png,gif}', GLOB_BRACE);
+        $randomImage = $images[array_rand($images)];
+        $randomImage1 = $images[array_rand($images)];
+        $randomImage2 = $images[array_rand($images)];
+        $randomImage3 = $images[array_rand($images)];
         echo $twig->render('pages/monprojet_acceuil.html.twig', array(
             'session' => $_SESSION,
+            'news' => $newsCategorie[0],
+            'randomImage' => $randomImage,
+            'randomImage1' => $randomImage1,
+            'randomImage2' => $randomImage2,
+            'randomImage3' => $randomImage3,
         ));
-        break;
+    break;
 
-//chargement de la page acceuil
+    //chargement de la page acceuil
     case 'index':
+        $news=getNews();
+        $newsCategorie = array();
+        $i = 0;
+        while ($new = $news->fetch())
+        {
+            $newsCategorie[$i] = $new;
+            $i++;
+        }
         $categories = getCategories();
         $tabCategorie = array();
         $i = 0;
         while ($cat = $categories->fetch())
         {
             $tabCategorie[$i] = $cat;
-            
             $subcats = getSousCategories($cat['id']);
             while ($subcat = $subcats->fetch()) 
             {
@@ -84,13 +145,24 @@ switch ($_POST['controllerAction']) {
             }
             $i++;
         }
+        $imagesDir = 'src/img/articlesImage/';
+        $images = glob($imagesDir . '*.{jpg,jpeg,png,gif}', GLOB_BRACE);
+        $randomImage = $images[array_rand($images)];
+        $randomImage1 = $images[array_rand($images)];
+        $randomImage2 = $images[array_rand($images)];
+        $randomImage3 = $images[array_rand($images)];
         echo $twig->render('pages/monprojet_acceuil.html.twig', array(
             'session' => $_SESSION,
             'categories' => $tabCategorie,
+            'news' => $newsCategorie[0],
+            'randomImage' => $randomImage,
+            'randomImage1' => $randomImage1,
+            'randomImage2' => $randomImage2,
+            'randomImage3' => $randomImage3,
         ));
-        break;
+    break;
 
-//
+    // Recherche
     case 'recherche':
         $recherche = htmlspecialchars($_POST['recherche']);
         $recherche =strtolower($recherche); //strtolower pour accepter les majuscules dans la recherche
@@ -154,8 +226,9 @@ switch ($_POST['controllerAction']) {
             'articleRechercher' => $_POST['recherche'],
             'categories' => $tabCategorie,
         ));
-        break;
+    break;
 
+    //descriptif articles
     case 'descriptifArticle':
         //insertion du menu deroulant des categories sur la page descriptif article
         $categories = getCategories();
@@ -182,9 +255,9 @@ switch ($_POST['controllerAction']) {
                 'session' => $_SESSION,
             ));
         }
-        break;
+    break;
 
-//chargement des pages articles ( par sous_catégorie Bdd)
+    //chargement des pages articles ( par sous_catégorie Bdd)
     case 'subcat':
     //insertion du menu deroulant des categories sur la page list article
     $categories = getCategories();
@@ -208,11 +281,10 @@ switch ($_POST['controllerAction']) {
         ));
         break;
 
-//chargement de la page panier
+    //chargement de la page panier
     case 'panier':
     if( !isset($_SESSION['idUtilisateur'])){
         header('Location: index.php');
-
     }
     //insertion du menu deroulant des categories sur la page panier
     $categories = getCategories();
@@ -245,7 +317,6 @@ switch ($_POST['controllerAction']) {
         $articlesPaniers = getArticlePanier($monPanier);
         $articlesPaniers = $articlesPaniers->fetchall(); //fetchall renvoi toute les lignes du tableau
         foreach ($articlesPaniers as &$unArticle) { //verifie un par un les articles
-            //dump($unArticle);
         }
         $couleurs = getCouleurss();
         $tailles = getTailless();
@@ -260,23 +331,52 @@ switch ($_POST['controllerAction']) {
             'articles' => $articles,
             'categories' => $tabCategorie,
         ));
-        break;
+    break;
 
-//chargement de la page mon compte
-case 'compte':   
-echo $twig->render('pages/monprojet_moncompte.html.twig', array(
-    'session' => $_SESSION,
-));
-break;
+    //chargement de la page mon compte
+    case 'compte': 
+        if( !isset($_SESSION['idUtilisateur'])){
+            header('Location: index.php');
+        }
+        $reponse = getUser();
+        $tabUser = array();
+        $i = 0;
+        $adresse;
+        $adresseFacturation;
+        while ($rep = $reponse->fetch())
+        {
+            $tabUser[$i] = $rep;
+            $adresse=$rep['id_adresse'];
+            $adresseFacturation=$rep['id_facturation'];
+            $i++;
+        }
+        $reponse = getAdresse($adresse);
+        while ($rep = $reponse->fetch())
+        {
+            $tabAdresse[$i] = $rep;
+            $i++;
+        }
+        $reponse = getAdresseFact($adresseFacturation);
+        while ($rep = $reponse->fetch())
+        {
+            $tabFacturation[$i] = $rep;
+            $i++;
+        }
+        echo $twig->render('pages/monprojet_moncompte.html.twig', array(
+        'session' => $_SESSION,
+        'tabUser' => $tabUser,
+        'tabAdresse' => $tabAdresse,
+        'tabFacturation' => $tabFacturation,
+        ));
+    break;
 
-//deconnexion
+    //deconnexion
     case 'logout':
         session_unset();
         header('Location: index.php');
+    break;
 
-        break;
-
-//
+    // pour la page descriptif article
     case 'articleDetails':
         //insertion du menu deroulant des categories sur la page panier
         $categories = getCategories();
@@ -306,21 +406,22 @@ break;
         ));
     break;
 
-//renvoi sur la page d'acceuil si pas d'article correspondant dans la BDD
+    //renvoi sur la page d'acceuil si pas d'article correspondant dans la BDD
     default:
     echo $twig->render('pages/monprojet_acceuil.html.twig', array(
         'session' => $_SESSION,
     ));
     break;
 
-//
+    // code pour inserer les articles dans le panier
     case 'insertionPanier':
-    if( !isset($_SESSION['idUtilisateur'])){
-        header('Location: index.php?idArticle='.$_POST['idPanierArticle']);
 
-    }
+        if( !isset($_SESSION['idUtilisateur'])){
+            header('Location: index.php?idArticle='.$_POST['idPanierArticle']);
+        }
+
         $mesPaniers = getPanier($_SESSION['idUtilisateur']);
-        $monPanier="";
+        $monPanier = "";
         while ($unPanier = $mesPaniers->fetch())
         {
             $monPanier=$unPanier['id'];
@@ -333,20 +434,109 @@ break;
                 $monPanier=$unPanier['id'];
             }
         }
-        echo$_POST['couleurs'];
-        $articlesPaniers=getArticlePanier($monPanier);
-        while ($articlesPanier = $articlesPaniers->fetch())
-        {
-        if($_POST['couleurs']==$articlesPanier['id_couleur'] &&
-        $_POST['tailles']==$articlesPanier['id_taille'] &&
-        $_POST['idPanierArticle']==$articlesPanier['id_article']){
-            $quantite= $_POST['quantite']+$articlesPanier['quantite'];
-            updateArticlePanier($monPanier, $quantite);
-            }else{
-                insertArticlePanier($monPanier);
+
+        $articlesPaniers = getArticlePanier($monPanier);
+
+        $_SESSION["idPanier"] = $monPanier;
+        
+        $articlesPaniers = $articlesPaniers->fetchAll();
+
+        if (count($articlesPaniers) == 0) {
+            insertArticlePanier($monPanier);
+        } else {  
+            foreach($articlesPaniers as $articlesPanier)
+            {
+                if($_POST['couleurs']==$articlesPanier['id_couleur'] &&
+                    $_POST['tailles']==$articlesPanier['id_taille'] &&
+                    $_POST['idPanierArticle']==$articlesPanier['id_article']) {
+                        
+                    $quantite= $_POST['quantite'] + $articlesPanier['quantite'];
+                    
+                    updateArticlePanier($monPanier, $quantite);
+                }else{
+                    insertArticlePanier($monPanier);
+                }
             }
         }
         header('Location: index.php?idArticle='.$_POST['idPanierArticle']);
     break;
-    }
+
+    // page paiement
+    case 'paiement':
+        $reponse = getUser();
+        $tabUser = array();
+        $i = 0;
+        $adresse;
+        while ($rep = $reponse->fetch())
+        {
+            $tabUser[$i] = $rep;
+            $adresse=$rep['id_adresse'];
+            $i++;
+        }
+        $reponse = getAdresse($adresse);
+        while ($rep = $reponse->fetch())
+        {
+            $tabAdresse[$i] = $rep;
+            $i++;
+        }
+        echo $twig->render('pages/monprojet_paiement.html.twig', array(
+            'session' => $_SESSION,
+            'tabUser' => $tabUser,
+            'tabAdresse' => $tabAdresse,
+        ));
+    break;
+
+    // fin du paiement 
+    case 'paiementF':
+        $fin=true;
+
+        deleteArticlePanier($_SESSION['idPanier']);
+
+        PanierIsPaid($_SESSION['idPanier']);
+
+        echo $twig->render('pages/monprojet_paiement.html.twig', array(
+            'session' => $_SESSION,
+            'fin' => $fin,
+        ));
+    break;
+
+
+    /* case 'modifProfil':
+        echo $_POST['lastName'];
+        echo $_POST["firstName"];
+        echo 'sdfghjdfg';
+        // updateUser();
+        $reponse = getUser();
+        $tabUser = array();
+        $i = 0;
+        $adresse;
+        $adresseFacturation;
+        while ($rep = $reponse->fetch())
+        {
+            $tabUser[$i] = $rep;
+            $adresse=$rep['id_adresse'];
+            $adresseFacturation=$rep['id_facturation'];
+            $i++;
+        }
+        $reponse = getAdresse($adresse);
+        while ($rep = $reponse->fetch())
+        {
+            $tabAdresse[$i] = $rep;
+            $i++;
+        }
+        $reponse = getAdresseFact($adresseFacturation);
+        while ($rep = $reponse->fetch())
+        {
+            $tabFacturation[$i] = $rep;
+            $i++;
+        }
+        echo $twig->render('pages/monprojet_moncompte.html.twig', array(
+            'session' => $_SESSION,
+            'tabUser' => $tabUser,
+            'tabAdresse' => $tabAdresse,
+            'tabFacturation' => $tabFacturation,
+        ));
+    break;*/
+
+}
 

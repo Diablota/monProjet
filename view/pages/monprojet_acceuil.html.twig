@@ -17,25 +17,46 @@
 					aria-expanded="false"> {{ categorie.libelle }}
 					</button>
 					<div class="col-md-12 dropdown-menu textCentre" aria-labelledby="dropdownMenu1">
-						<hr/ class= "separation">
+						<hr class= "separation">
 						{% for subcat in categorie.subcat %}
 							<button class="dropdown-item"><a href="index.php?subcat={{ subcat.id }}">{{ subcat.libelle }}</a></button>
-						<hr/ class= "separation">
+						<hr class= "separation">
 						{% endfor %}
 					</div>
 				</div>	
 			</div>
 		{% endfor %}
 	</div>
-	<div style="width:100%; height: 30vh;"></div>
+	
+	<div style="width:100%; height: 15px;"></div>
 
-	<!-- Box News -->
-	<div id="boxtexteacceuil" class= "news">             
-		<p>Bienvenue sur le site Diakustom, nous sommes ravis de vous acceuillir.</p>
-		<p>N'hésitez pas à nous contacter par le chat Live Vendeur, ou pas mail:<a href="mailto:diakustom@gmail.com"> diakustom@gmail.com</a>
-		</p>
-	</div>
 
-	<div style="width:100%; height: 20%;">
+	<div class= "row" style="width:100%; margin:0;">
+		<div class="col-md-1"></div>
+		<div class="col-md-5">
+				<div style="height: 100px;"></div>
+			<!-- Box News (raw contre l'échappament)-->
+			<div id="boxtexteacceuil" class= "news col-md-12">{{ news.message|raw }} 
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class= "row">
+				<div class="col-md-2"></div>
+				<!-- Image random -->
+				<div class="col-md-4">
+					<img class="zoom" style="height: 150px; width: 150px;" src="{{ randomImage }} " alt="article aléatoire" ;/>
+					<img class="zoom" style="height: 150px; width: 150px;" src="{{ randomImage1 }} " alt="article aléatoire" ;/>
+				</div>
+				<div class="col-md-1"></div>
+				<div class="col-md-4">
+					<img class="zoom" style="height: 150px; width: 150px;" src="{{ randomImage2 }} " alt="article aléatoire" ;/>
+					<img class="zoom" style="height: 150px; width: 150px;" src="{{ randomImage3 }} " alt="article aléatoire" ;/>	
+				</div>
+				<div class="col-md-1"></div>
+			</div>
+			<div class="col-md-1"></div>
+		</div>
 	</div>
+	<div style="width:100%; height: 60px;"></div>
+
 {% endblock %}

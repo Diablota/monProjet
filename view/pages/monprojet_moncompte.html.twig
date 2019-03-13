@@ -3,21 +3,23 @@
 {% block title %} Mon compte {% endblock %}
 
 {% block content %}
-<div class="row">
+<div style="height: 15px;"></div>
+<div class="row"style="width:100%; margin:0;">
 	<div class="col-md-1"></div>
-	<div class="col-md-5">
+<!-- Mon profil -->
+	<div class="col-md-5" style= "background-color: whitesmoke;">
 		<div class="row">
 			<div class="col-md-12 bordPanier">
 			Mon profil:
 			</div>
 		</div>
-		<form id="myForm">
+		{% for user in tabUser %}
 			<div class="row bordPanier">
 				<div class="col-md-5">
-					<label class="form_col" for="lastName">Nom :</label>
+					<label class="form_col" for="lastName">Nom:</label>
 				</div>
 				<div class="col-md-7">
-					<input name="lastName" id="lastName" type="text" class="col-md-12"/>
+					<input type="text" name="lastName"  class="col-md-12" value="{{ user.nom }}" />
 					<span id="errorLastName" class="tooltip hiddenMsg">Un nom ne peut pas faire moins de 2 caractères</span>
 				</div>
 			</div>
@@ -27,7 +29,7 @@
 					<label class="form_col" for="firstName">Prénom :</label>
 				</div>
 				<div class="col-md-7">
-					<input name="firstName" id="firstName" type="text" class="col-md-12"/>
+					<input name="firstName" id="firstName" type="text" class="col-md-12" value="{{ user.prenom }}" />
 					<span id="errorFirstName" class="tooltip hiddenMsg">Un prénom ne peut pas faire moins de 2 caractères</span>
 				</div>
 			</div>
@@ -37,7 +39,17 @@
 					<label class="form_col" for="date_naiss">Date de Naissance: :</label>
 				</div>
 				<div class="col-md-7">
-					<input name="date_naiss" id="date_naiss" type="text" class="col-md-12"/>
+					<input name="date_naiss" id="date_naiss" type="date" class="col-md-12" value="{{ user.date_naiss }}" />
+				</div>
+			</div>
+
+			<div class="row bordPanier">
+				<div class="col-md-5">
+					<label class="form_col" for="login">Mail :</label>
+				</div>
+				<div class="col-md-7">
+					<input name="login" id="mail" type="mail" class="col-md-12" value="{{ user.mail }}" />
+					<span id="errorMail" class="tooltip hiddenMsg">Votre adresse mail n'est pas valable</span>
 				</div>
 			</div>
 
@@ -46,7 +58,7 @@
 					<label class="form_col" for="login">Pseudo :</label>
 				</div>
 				<div class="col-md-7">
-					<input name="login" id="pseudo" type="text" class="col-md-12"/>
+					<input name="login" id="pseudo" type="text" class="col-md-12" value="{{ user.pseudo }}" />
 					<span id="errorPseudo" class="tooltip hiddenMsg">Le pseudo ne peut pas faire moins de 4 caractères</span>
 				</div>
 			</div>
@@ -56,7 +68,7 @@
 					<label class="form_col" for="pwd1">Mot de passe :</label>
 				</div>
 				<div class="col-md-7">
-					<input name="pwd1" id="pwd1" type="password" class="col-md-12"/>
+					<input name="pwd1" id="pwd1" type="password" class="col-md-12" value="{{ user.mdp }}" />
 				</div>
 			</div>
 
@@ -65,70 +77,93 @@
 					<label class="form_col" for="pwd2">Mot de passe (confirm) :</label>
 				</div>
 				<div class="col-md-7">
-					<input name="pwd2" id="pwd2" type="password" class="col-md-12"/>
+					<input name="pwd2" id="pwd2" type="password" class="col-md-12" value="{{ user.mdp }}" />
 					<span id="errorPwd1" class="tooltip hiddenMsg">Le mot de passe ne doit pas faire moins de 6 caractères</span>
 					<span id="errorPwd2" class="tooltip hiddenMsg">Le mot de passe de confirmation doit être identique à celui d'origine</span>
 				</div>
 			</div>
+			{% endfor %}
+			{% for facturation in tabFacturation %}
 
 			<div class="row bordPanier">
 				<div class="col-md-5">
 					<label class="form_col" for="lastName">Adresse Facturation:</label>
 				</div>
 				<div class="col-md-7">	
-					<input name="adresse" id="adresse" type="text" class="col-md-12"/>
+					<input name="adresse" id="adresse" type="text" class="col-md-12" value="{{ facturation.adresse_facturation }}" />
 					<span id="errorAdresse" class="tooltip hiddenMsg"></span>
 				</div>
 				<div class="col-md-5">
 					<label class="form_col" for="lastName">Code Postal:</label>
 				</div>
 				<div class="col-md-7">	
-					<input name="adresse" id="adresse" type="number" class="col-md-12"/>
+					<input name="adresse" id="adresse" type="number" class="col-md-12" value="{{ facturation.cp_facturation }}" />
 					<span id="errorAdresse" class="tooltip hiddenMsg"></span>
 				</div>
 				<div class="col-md-5">
 					<label class="form_col" for="lastName">Ville:</label>
 				</div>
 				<div class="col-md-7">	
-					<input name="adresse" id="adresse" type="text" class="col-md-12"/>
+					<input name="adresse" id="adresse" type="text" class="col-md-12" value="{{ facturation.ville_facturation }}" />
 					<span id="errorAdresse" class="tooltip hiddenMsg"></span>
 				</div>
 			</div>
+			{% endfor %}
+
+			{% for adresse in tabAdresse %}
 
 			<div class="row bordPanier">
 				<div class="col-md-5">
 					<label class="form_col" for="lastName">Adresse Livraison:</label>
 				</div>
 				<div class="col-md-7">	
-					<input name="adresse" id="adresse" type="text" class="col-md-12"/>
+					<input name="adresse" id="adresse" type="text" class="col-md-12" value="{{ adresse.adresse_livraison }}" />
 					<span id="errorAdresse" class="tooltip hiddenMsg"></span>
 				</div>
 				<div class="col-md-5">
 					<label class="form_col" for="lastName">Code Postal:</label>
 				</div>
 				<div class="col-md-7">	
-					<input name="adresse" id="adresse" type="number" class="col-md-12"/>
+					<input name="adresse" id="adresse" type="number" class="col-md-12"value="{{ adresse.cp_livraison }}" />
 					<span id="errorAdresse" class="tooltip hiddenMsg"></span>
 				</div>
 				<div class="col-md-5">
 					<label class="form_col" for="lastName">Ville:</label>
 				</div>
 				<div class="col-md-7">	
-					<input name="adresse" id="adresse" type="text" class="col-md-12"/>
+					<input name="adresse" id="adresse" type="text" class="col-md-12" value="{{ adresse.ville_livraison }}" />
 					<span id="errorAdresse" class="tooltip hiddenMsg"></span>
 				</div>
-			</div>
-		</form>
+			</div>		
+		{% endfor %}
+
 	</div>
 	<div class="col-md-1"></div>
-	<div class="col-md-4 bordPanier">
-		Historique des mes achats:
+	<div class="col-md-4 bordPanier" style= "background-color: whitesmoke;">
+		Historique de mes achats:
+
+		{% for facturation in tabFacturation %}
+
+
+		{% endfor %}
+
+
+
 	</div>
 	<div class="col-md-1"></div>
 </div>
 
+<div style="height: 25px;"></div>
 
+<div class="row">
+	<div class="col-md-5"></div>
+	<div class="col-md-2">
+			<button id="btnModifProfil" class="col-md-12 btn btn-dark btn-noDecoration">Enregistrer</button>
+	</div>
+	<div class="col-md-5"></div>
+</div>
 
+<div style="width:100%; height: 60px;"></div>
 
 
 
