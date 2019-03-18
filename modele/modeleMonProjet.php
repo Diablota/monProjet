@@ -112,7 +112,7 @@ function getArticles($id) {
 function getArticle($id) {
 	$bdd = coBdd();
 	$req = $bdd->prepare('
-	    SELECT * 
+		SELECT * 
 		FROM article 
 		WHERE article.id = ' . $id .'
 	');
@@ -227,7 +227,7 @@ function getTaille($id) {
 		SELECT *
 		FROM article_taille
 		LEFT JOIN taille
-		    ON taille.id = article_taille.id_taille
+			ON taille.id = article_taille.id_taille
 		WHERE id_article = '.$id.'
 	');
 	$req->execute();
@@ -247,7 +247,7 @@ function getTailles($id) {
 	return $req;
 }
 
-//recherche
+// la recherche
 function rechercheArticles($id){
 	$bdd = coBdd();
 	$req = $bdd->query('
@@ -260,7 +260,7 @@ function rechercheArticles($id){
 	return $req;
 }
 
-// fonction a reutiliser pour creer l'historique des commandes??
+// fonction a voir pour reutiliser a la creation de l'historique des commandes
 // recuperer panier
 function getPanier($id) {
 	$bdd = coBdd();
@@ -271,6 +271,24 @@ function getPanier($id) {
 		AND is_deleted = 0
 	');
 	$req->execute();
+	return $req;
+}
+
+//
+function getAllPanierUser($user_id) {
+	$bdd = coBdd();
+	$req = $bdd->query('
+		SELECT *
+		FROM `panier`
+		LEFT JOIN article_panier 
+			ON article_panier.id_panier = panier.id
+		LEFT JOIN article
+			ON article.id = article_panier.id_article
+		WHERE id_utilisateur = '.$user_id.'
+		ORDER BY panier.id
+	');
+	$req->execute();
+	$req = $req->fetchAll();
 	return $req;
 }
 
@@ -412,7 +430,7 @@ function updateUser() {
 	$email = htmlspecialchars($_POST["login"]);
 	$mdp = htmlspecialchars($_POST["pwd1"]);
 	$bdd = coBdd();
-	$req = $bdd->prepare('/////////////////////// DCDLAMERD
+	$req = $bdd->prepare('
 		UPDATE utilisateur
 		SET (nom ,prenom,date_naiss,pseudo,	mdp,mail)
 		VALUES (:nom, :prenom, :date_naiss,:pseudo, :mdp, :mail)
@@ -449,4 +467,15 @@ function PanierIsPaid($id) {
 	');
 	$req->execute();
 	return $req;
+}
+
+function getMdp($mailDemande) {
+	$bdd = coBdd();
+	$reponse = $bdd->prepare('
+		SELECT mdp
+		FROM utilisateur
+		WHERE mail = ' . $mailDemande .'
+	');
+	$reponse->execute();
+	return $reponse;
 }

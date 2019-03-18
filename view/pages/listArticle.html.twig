@@ -5,27 +5,27 @@
 {% block content %}
 <!-- Déroulents des catégories -->
 <div class="row col-md-12" style="width:100%; margin:0;">
-		{% for categorie in categories %}
-			<div class="col-md-4">
-				<div class="dropdown">
-					<button class="col-sm-12 btn btn-secondary dropdown-toggle" 
-					type="button" 
-					id="dropdownMenu1" 
-					data-toggle="dropdown" 
-					aria-haspopup="true" 
-					aria-expanded="false"> {{ categorie.libelle }}
-					</button>
-					<div class="col-sm-12 dropdown-menu textCentre" aria-labelledby="dropdownMenu1">
-						<hr/ class= "separation">
-						{% for subcat in categorie.subcat %}
-							<button class="dropdown-item"><a href="index.php?subcat={{ subcat.id }}">{{ subcat.libelle }}</a></button>
-						<hr/ class= "separation">
-						{% endfor %}
-					</div>
-				</div>	
-			</div>
-		{% endfor %}
-    </div>
+	{% for categorie in categories %}
+		<div class="col-md-4">
+			<div class="dropdown">
+				<button class="col-sm-12 btn btn-secondary dropdown-toggle" 
+				type="button" 
+				id="dropdownMenu1" 
+				data-toggle="dropdown" 
+				aria-haspopup="true" 
+				aria-expanded="false"> {{ categorie.libelle }}
+				</button>
+				<div class="col-sm-12 dropdown-menu textCentre" aria-labelledby="dropdownMenu1">
+					<hr/ class= "separation">
+					{% for subcat in categorie.subcat %}
+						<button class="dropdown-item"><a href="index.php?subcat={{ subcat.id }}">{{ subcat.libelle }}</a></button>
+					<hr/ class= "separation">
+					{% endfor %}
+				</div>
+			</div>	
+		</div>
+	{% endfor %}
+</div>
     
     <div style="height: 15px;"></div>
 

@@ -5,28 +5,28 @@
 {% block content %}
 <!-- Déroulents des catégories -->
 <div class="row col-md-12" style="width:100%; margin:0;">
-		{% for categorie in categories %}
-			<div class="col-md-4">
-				<div class="dropdown">
-					<button class="col-sm-12 btn btn-secondary dropdown-toggle" 
-					type="button" 
-					id="dropdownMenu1" 
-					data-toggle="dropdown" 
-					aria-haspopup="true" 
-					aria-expanded="false"> {{ categorie.libelle }}
-					</button>
-					<div class="col-sm-12 dropdown-menu textCentre" aria-labelledby="dropdownMenu1">
-						<hr/ class= "separation">
-						{% for subcat in categorie.subcat %}
-							<button class="dropdown-item"><a href="index.php?subcat={{ subcat.id }}">{{ subcat.libelle }}</a></button>
-						<hr/ class= "separation">
-						{% endfor %}
-					</div>
-				</div>	
-			</div>
-		{% endfor %}
-    </div>
-    
+	{% for categorie in categories %}
+		<div class="col-md-4">
+			<div class="dropdown">
+				<button class="col-sm-12 btn btn-secondary dropdown-toggle" 
+				type="button" 
+				id="dropdownMenu1" 
+				data-toggle="dropdown" 
+				aria-haspopup="true" 
+				aria-expanded="false"> {{ categorie.libelle }}
+				</button>
+				<div class="col-sm-12 dropdown-menu textCentre" aria-labelledby="dropdownMenu1">
+					<hr/ class= "separation">
+					{% for subcat in categorie.subcat %}
+						<button class="dropdown-item"><a href="index.php?subcat={{ subcat.id }}">{{ subcat.libelle }}</a></button>
+					<hr/ class= "separation">
+					{% endfor %}
+				</div>
+			</div>	
+		</div>
+	{% endfor %}
+</div>
+
 <div style="height: 15px;"></div>
 
 <div class="row"style="width:100%; margin:0;">
@@ -35,13 +35,10 @@
         <div class="row"style="border: 5px black solid ; background-color: whitesmoke; padding: 40px 40px 40px 40px">
             <div class="col-md-3">
                 <!-- <a href="index.php?idArticle={{ article.id }}"> -->
-                    <div id="imageChange">
-
-                        
-
-                <img class="zoom" src="src/img/articlesImage/{{ article.image_src }}.png" alt="{{ article.libelle }}" id='parametre' class='categImage'  />
-            </div>
-            <!-- </a>-->
+                <div id="imageChange">
+                    <img class="zoom" src="src/img/articlesImage/{{ article.image_src }}.png" alt="{{ article.libelle }}" id='parametre' class='categImage'  />
+                </div>
+                <!-- </a>-->
             </div>
             <div class="col-md-9">
                 <div class="row">
@@ -58,7 +55,7 @@
 <!--Couleur par la BDD-->
                     <div class="col-md-4">
                         <div class="dropdown">
-                                <select name="couleurs" id="mesCouleur"class="btn btn-secondary col-md-10 dropdown-toggle">
+                            <select name="couleurs" id="mesCouleur"class="btn btn-secondary col-md-10 dropdown-toggle">
                                 {% for couleur in articleCouleur %}
                                     <option value={{couleur.id}}>{{ couleur.libelle }}</option>
                                 {% endfor %}
@@ -68,30 +65,37 @@
 <!--Taille par la BDD-->
                     <div class="col-md-4">
                         <div class="dropdown">
-                                <select name="tailles"class="btn btn-secondary col-md-10 dropdown-toggle">
-                            {% for taille in articleTaille %}
-                            <option value={{taille.id}}>{{ taille.libelle }}</option>
-                            {% endfor %}
-                                </select>
+                            <select name="tailles"class="btn btn-secondary col-md-10 dropdown-toggle">
+                                {% for taille in articleTaille %}
+                                    <option value={{taille.id}}>{{ taille.libelle }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                     </div>
 <!--Quantité article-->
                     <div class="col-md-4">
-                            <input id="number" name= "quantite" type="number" value="1" class="col-md-10" style= "height: 38px; border-radius: 6px";>
+                        <input id="number" name= "quantite" type="number" value="1" class="col-md-10" style= "height: 38px; border-radius: 6px";>
                     </div>
                 </div></br>
 <!-- Bouton caché -->
-                    <input name="idPanierArticle" type="hidden" value={{ article.id }}>
+                <input name="idPanierArticle" type="hidden" value={{ article.id }}>
 
-                    <div class="row">
-                        <div class="col-md-9"></div>
-                        <div class="col-md-3">
-                            {% if session.prenom is defined %}
-                                <button id="btnEnvoiePanier" class="btn btn-dark btn-noDecoration">Ajouter au panier</button>
-                            {% else %}
-                                <button class="btn btn-dark btn-noDecoration">Connectez vous</button>
-                            {% endif %}
-                        </div>
+<!-- Bouton Ajout panier -->                    
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-3">
+                        {% if ajoutArticle == true %}
+                            <img src= "src/img/display/articleAjout.png" height="45px" id="logoAjoutPanier" alt="index" title="index" >
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4"></div>
+                    <div class="col-md-3">
+                        {% if session.prenom is defined %}
+                            <button id="btnEnvoiePanier" class="btn btn-dark btn-noDecoration">Ajouter au panier</button>
+                        {% else %}
+                            <button class="btn btn-dark btn-noDecoration">Connectez vous</button>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>  
@@ -99,4 +103,4 @@
     <div class="col-md-1"></div>
 </div>
 <div style="width:100%; height: 60px;"></div>
-    {% endblock %}
+{% endblock %}

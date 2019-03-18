@@ -68,6 +68,16 @@ body{
     background-repeat: no-repeat;
 }
 
+
+
+.modalOubliMdp{
+	background-image:url(../img/display/mentions2.jpg);
+	background-size: 60px;
+	color: white;
+}
+
+
+
 .modalMention{
 	background-image:url(../img/display/mentions2.jpg);
 	background-size: 600px;

@@ -141,12 +141,24 @@
 	<div class="col-md-1"></div>
 	<div class="col-md-4 bordPanier" style= "background-color: whitesmoke;">
 		Historique de mes achats:
+		<table>
+			{% for unHistorique in historiques %}
+				<tr>
+				{% set currentPanier = unHistorique.id %}
 
-		{% for facturation in tabFacturation %}
+				{% if currentPanier != lastPanier %}
+					{# afficher #}
+					<td>{{ unHistorique.libelle }}</td>
+				{% else %}
+					
+					Panier suivant : {{ unHistorique.id }}
+					
+				{% endif %}
 
-
-		{% endfor %}
-
+				{% set lastPanier = unHistorique.id %}
+				</tr>
+			{% endfor %}
+		</table>
 
 
 	</div>

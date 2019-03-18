@@ -340,9 +340,12 @@ switch ($_POST['controllerAction']) {
         }
         $reponse = getUser();
         $tabUser = array();
+
         $i = 0;
         $adresse;
         $adresseFacturation;
+        $historique;
+        $tabHistorique;
         while ($rep = $reponse->fetch())
         {
             $tabUser[$i] = $rep;
@@ -356,17 +359,24 @@ switch ($_POST['controllerAction']) {
             $tabAdresse[$i] = $rep;
             $i++;
         }
+
+
         $reponse = getAdresseFact($adresseFacturation);
         while ($rep = $reponse->fetch())
         {
             $tabFacturation[$i] = $rep;
             $i++;
         }
+
+
+        $tabHistorique = getAllPanierUser($_SESSION['idUtilisateur']);
+
         echo $twig->render('pages/monprojet_moncompte.html.twig', array(
         'session' => $_SESSION,
         'tabUser' => $tabUser,
         'tabAdresse' => $tabAdresse,
         'tabFacturation' => $tabFacturation,
+        'historiques' => $tabHistorique,
         ));
     break;
 
@@ -397,12 +407,19 @@ switch ($_POST['controllerAction']) {
         $couleurs=getCouleur($_GET['idArticle']);
         /*Chargement BDD des tailles*/
         $tailles=getTaille($_GET['idArticle']);
+        $ajoutArticle=false;
+
+        if(isset($_GET['articleAcheter'])) {
+            $ajoutArticle=true;
+        }
+
         echo $twig->render('pages/descriptifArticle.html.twig', array(
             'article' => $monArticle[0],
             'session' => $_SESSION,
             'articleCouleur' =>$couleurs,
             'articleTaille' =>$tailles,
             'categories' => $tabCategorie,
+            'ajoutArticle' => $ajoutArticle,
         ));
     break;
 
@@ -419,7 +436,7 @@ switch ($_POST['controllerAction']) {
         if( !isset($_SESSION['idUtilisateur'])){
             header('Location: index.php?idArticle='.$_POST['idPanierArticle']);
         }
-
+        if($_POST['quantite'] >0){
         $mesPaniers = getPanier($_SESSION['idUtilisateur']);
         $monPanier = "";
         while ($unPanier = $mesPaniers->fetch())
@@ -436,8 +453,6 @@ switch ($_POST['controllerAction']) {
         }
 
         $articlesPaniers = getArticlePanier($monPanier);
-
-        $_SESSION["idPanier"] = $monPanier;
         
         $articlesPaniers = $articlesPaniers->fetchAll();
 
@@ -458,7 +473,12 @@ switch ($_POST['controllerAction']) {
                 }
             }
         }
+        header('Location: index.php?idArticle='.$_POST['idPanierArticle'].'&articleAcheter=1');
+
+    }else{
         header('Location: index.php?idArticle='.$_POST['idPanierArticle']);
+
+    }
     break;
 
     // page paiement
@@ -490,9 +510,19 @@ switch ($_POST['controllerAction']) {
     case 'paiementF':
         $fin=true;
 
-        deleteArticlePanier($_SESSION['idPanier']);
+        $mesPaniers = getPanier($_SESSION['idUtilisateur']);
+        
+        $monPanier = "";
+        
+        while ($unPanier = $mesPaniers->fetch())
+        {
+            $monPanier=$unPanier['id'];
+        }
 
-        PanierIsPaid($_SESSION['idPanier']);
+        deleteArticlePanier($monPanier);
+
+        PanierIsPaid($monPanier);
+
 
         echo $twig->render('pages/monprojet_paiement.html.twig', array(
             'session' => $_SESSION,
@@ -501,6 +531,56 @@ switch ($_POST['controllerAction']) {
     break;
 
 
+
+
+
+    case 'renvoieMdp':
+        $req = getMdp($_POST['mailMotdepass']);
+        while($mdp = $req->fetch()) {
+            mail($_POST['mailMotdepass'], 'Votre mot de passe', $mdp);
+        }
+        $news=getNews();
+        $newsCategorie = array();
+        $i = 0;
+        while ($new = $news->fetch())
+        {
+            $newsCategorie[$i] = $new;
+            $i++;
+        }
+        $categories = getCategories();
+        $tabCategorie = array();
+        $i = 0;
+        while ($cat = $categories->fetch())
+        {
+            $tabCategorie[$i] = $cat;
+            $subcats = getSousCategories($cat['id']);
+            while ($subcat = $subcats->fetch()) 
+            {
+                $tabCategorie[$i]['subcat'][] = $subcat;
+            }
+            $i++;
+        }
+        $imagesDir = 'src/img/articlesImage/';
+        $images = glob($imagesDir . '*.{jpg,jpeg,png,gif}', GLOB_BRACE);
+        $randomImage = $images[array_rand($images)];
+        $randomImage1 = $images[array_rand($images)];
+        $randomImage2 = $images[array_rand($images)];
+        $randomImage3 = $images[array_rand($images)];
+        echo $twig->render('pages/monprojet_acceuil.html.twig', array(
+            'session' => $_SESSION,
+            'categories' => $tabCategorie,
+            'news' => $newsCategorie[0],
+            'randomImage' => $randomImage,
+            'randomImage1' => $randomImage1,
+            'randomImage2' => $randomImage2,
+            'randomImage3' => $randomImage3,
+        ));
+    break;
+
+
+
+
+    
     /* case 'modifProfil':
         echo $_POST['lastName'];
         echo $_POST["firstName"];

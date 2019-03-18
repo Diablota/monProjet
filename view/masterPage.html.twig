@@ -12,6 +12,7 @@
     <script type="text/javascript" src="lib/libbootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="lib/js/js.js"></script>
     <link rel="stylesheet" href="src/css/monprojet.css"/>
+    <link rel="icon" href="src/img/display/favicon.ico" />
 </head>
 <body>
     <form id="formNav" action="index.php" method="POST">
@@ -131,6 +132,8 @@
                                             <label for="exampleInputPassword1" class="couleurTexte">Mot de passe</label>
                                             <input type="password" class="form-control" name="mdpConnection" placeholder="Votre mot de passe" /> <br />
                                         </div>
+                                        <button type="button" id="btnOubliMdp" data-toggle="modal" data-target="#OubliMdp" class ="btn btn-link btn-noDecoration" >Mot de passe oublié
+                                        </button></br>
                                         <button type="button" id="btnInscription" data-toggle="modal" data-target="#exampleModalLong" class ="btn btn-link btn-noDecoration" >S'inscrire
                                         </button>
                                     </div>
@@ -145,6 +148,35 @@
                 </div>
             </div>
         </div>
+
+
+        <!-- MODAL OUBLI MDP -->
+        <div style= "z-index: 1101" class="modal" id="OubliMdp" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Mot de passe oublié?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modalOubliMdp">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-10">
+                                <p>Indiquez votre adresse mail:</p>
+                                <input type="email" name="mailMotdepass" class="form-control col-md-12" placeholder="Votre email" /></br>
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>    
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="oubliMdpValid" class="btn btn-primary">Renvoi du mot de passe</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!-- MODAL INSCRIPTION -->
         <div style= "z-index: 1101" class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
