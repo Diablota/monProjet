@@ -371,12 +371,18 @@ switch ($_POST['controllerAction']) {
 
         $tabHistorique = getAllPanierUser($_SESSION['idUtilisateur']);
 
+        $couleurs = getCouleurss();
+        $tailles = getTailless();
+        $articles = getArticless();
         echo $twig->render('pages/monprojet_moncompte.html.twig', array(
         'session' => $_SESSION,
         'tabUser' => $tabUser,
         'tabAdresse' => $tabAdresse,
         'tabFacturation' => $tabFacturation,
         'historiques' => $tabHistorique,
+        'couleurs' => $couleurs,
+        'tailles' => $tailles,
+        'articles' => $articles,
         ));
     break;
 
@@ -530,10 +536,7 @@ switch ($_POST['controllerAction']) {
         ));
     break;
 
-
-
-
-
+// verification mot de passe
     case 'renvoieMdp':
         $req = getMdp($_POST['mailMotdepass']);
         while($mdp = $req->fetch()) {
@@ -578,10 +581,8 @@ switch ($_POST['controllerAction']) {
     break;
 
 
-
-
-    
-    /* case 'modifProfil':
+// n'enregistre pas encore sur la Bdd mais renvoie la page identique
+     case 'modifProfil':
         echo $_POST['lastName'];
         echo $_POST["firstName"];
         echo 'sdfghjdfg';
@@ -616,7 +617,7 @@ switch ($_POST['controllerAction']) {
             'tabAdresse' => $tabAdresse,
             'tabFacturation' => $tabFacturation,
         ));
-    break;*/
+    break;
 
 }
 

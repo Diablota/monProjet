@@ -22,6 +22,7 @@ function insertUser() {
 	$pseudo = htmlspecialchars($_POST["pseudo"]);
 	$email = htmlspecialchars($_POST["email"]);
 	$mdp = htmlspecialchars($_POST["pwd1"]);
+	
 	$bdd = coBdd();
 	$req = $bdd->prepare('
 		INSERT INTO utilisateur (nom, prenom, pseudo, mail, mdp) 

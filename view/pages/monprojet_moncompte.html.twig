@@ -3,181 +3,190 @@
 {% block title %} Mon compte {% endblock %}
 
 {% block content %}
-<div style="height: 15px;"></div>
-<div class="row"style="width:100%; margin:0;">
-	<div class="col-md-1"></div>
-<!-- Mon profil -->
-	<div class="col-md-5" style= "background-color: whitesmoke;">
-		<div class="row">
-			<div class="col-md-12 bordPanier">
-			Mon profil:
+<div style=" width:98%;">
+	<div style="height: 15px; width:100%;"></div>
+	<div class="row"style="width:100%; margin:0;">
+		<div class="col-md-1"></div>
+	<!-- Mon profil -->
+		<div class="col-md-5" style= "background-color: whitesmoke;">
+			<div class="row">
+				<div class="col-md-12 bordPanier">
+				Mon profil:
+				</div>
 			</div>
+			{% for user in tabUser %}
+				<div class="row bordPanier">
+					<div class="col-md-5">
+						<label class="form_col" for="lastName">Nom:</label>
+					</div>
+					<div class="col-md-7">
+						<input type="text" name="lastName"  class="col-md-12" value="{{ user.nom }}" />
+						<span id="errorLastName" class="tooltip hiddenMsg">Un nom ne peut pas faire moins de 2 caractères</span>
+					</div>
+				</div>
+
+				<div class="row bordPanier">
+					<div class="col-md-5">
+						<label class="form_col" for="firstName">Prénom :</label>
+					</div>
+					<div class="col-md-7">
+						<input name="firstName" id="firstName" type="text" class="col-md-12" value="{{ user.prenom }}" />
+						<span id="errorFirstName" class="tooltip hiddenMsg">Un prénom ne peut pas faire moins de 2 caractères</span>
+					</div>
+				</div>
+
+				<div class="row bordPanier">
+					<div class="col-md-5">
+						<label class="form_col" for="date_naiss">Date de Naissance: :</label>
+					</div>
+					<div class="col-md-7">
+						<input name="date_naiss" id="date_naiss" type="date" class="col-md-12" value="{{ user.date_naiss }}" />
+					</div>
+				</div>
+
+				<div class="row bordPanier">
+					<div class="col-md-5">
+						<label class="form_col" for="login">Mail :</label>
+					</div>
+					<div class="col-md-7">
+						<input name="login" id="mail" type="mail" class="col-md-12" value="{{ user.mail }}" />
+						<span id="errorMail" class="tooltip hiddenMsg">Votre adresse mail n'est pas valable</span>
+					</div>
+				</div>
+
+				<div class="row bordPanier">
+					<div class="col-md-5">
+						<label class="form_col" for="login">Pseudo :</label>
+					</div>
+					<div class="col-md-7">
+						<input name="login" id="pseudo" type="text" class="col-md-12" value="{{ user.pseudo }}" />
+						<span id="errorPseudo" class="tooltip hiddenMsg">Le pseudo ne peut pas faire moins de 4 caractères</span>
+					</div>
+				</div>
+
+				<div class="row bordPanier">
+					<div class="col-md-5">
+						<label class="form_col" for="pwd1">Mot de passe :</label>
+					</div>
+					<div class="col-md-7">
+						<input name="pwd1" id="pwd1" type="password" class="col-md-12" value="{{ user.mdp }}" />
+					</div>
+				</div>
+
+				<div class="row bordPanier">
+					<div class="col-md-5">
+						<label class="form_col" for="pwd2">Mot de passe (confirm) :</label>
+					</div>
+					<div class="col-md-7">
+						<input name="pwd2" id="pwd2" type="password" class="col-md-12" value="{{ user.mdp }}" />
+						<span id="errorPwd1" class="tooltip hiddenMsg">Le mot de passe ne doit pas faire moins de 6 caractères</span>
+						<span id="errorPwd2" class="tooltip hiddenMsg">Le mot de passe de confirmation doit être identique à celui d'origine</span>
+					</div>
+				</div>
+				{% endfor %}
+				{% for facturation in tabFacturation %}
+
+				<div class="row bordPanier">
+					<div class="col-md-5">
+						<label class="form_col" for="lastName">Adresse Facturation:</label>
+					</div>
+					<div class="col-md-7">	
+						<input name="adresse" id="adresse" type="text" class="col-md-12" value="{{ facturation.adresse_facturation }}" />
+						<span id="errorAdresse" class="tooltip hiddenMsg"></span>
+					</div>
+					<div class="col-md-5">
+						<label class="form_col" for="lastName">Code Postal:</label>
+					</div>
+					<div class="col-md-7">	
+						<input name="adresse" id="adresse" type="number" class="col-md-12" value="{{ facturation.cp_facturation }}" />
+						<span id="errorAdresse" class="tooltip hiddenMsg"></span>
+					</div>
+					<div class="col-md-5">
+						<label class="form_col" for="lastName">Ville:</label>
+					</div>
+					<div class="col-md-7">	
+						<input name="adresse" id="adresse" type="text" class="col-md-12" value="{{ facturation.ville_facturation }}" />
+						<span id="errorAdresse" class="tooltip hiddenMsg"></span>
+					</div>
+				</div>
+				{% endfor %}
+
+				{% for adresse in tabAdresse %}
+
+				<div class="row bordPanier">
+					<div class="col-md-5">
+						<label class="form_col" for="lastName">Adresse Livraison:</label>
+					</div>
+					<div class="col-md-7">	
+						<input name="adresse" id="adresse" type="text" class="col-md-12" value="{{ adresse.adresse_livraison }}" />
+						<span id="errorAdresse" class="tooltip hiddenMsg"></span>
+					</div>
+					<div class="col-md-5">
+						<label class="form_col" for="lastName">Code Postal:</label>
+					</div>
+					<div class="col-md-7">	
+						<input name="adresse" id="adresse" type="number" class="col-md-12"value="{{ adresse.cp_livraison }}" />
+						<span id="errorAdresse" class="tooltip hiddenMsg"></span>
+					</div>
+					<div class="col-md-5">
+						<label class="form_col" for="lastName">Ville:</label>
+					</div>
+					<div class="col-md-7">	
+						<input name="adresse" id="adresse" type="text" class="col-md-12" value="{{ adresse.ville_livraison }}" />
+						<span id="errorAdresse" class="tooltip hiddenMsg"></span>
+					</div>
+				</div>		
+			{% endfor %}
+
 		</div>
-		{% for user in tabUser %}
-			<div class="row bordPanier">
-				<div class="col-md-5">
-					<label class="form_col" for="lastName">Nom:</label>
-				</div>
-				<div class="col-md-7">
-					<input type="text" name="lastName"  class="col-md-12" value="{{ user.nom }}" />
-					<span id="errorLastName" class="tooltip hiddenMsg">Un nom ne peut pas faire moins de 2 caractères</span>
-				</div>
-			</div>
+		<div class="col-md-1"></div>
+		<div class="col-md-4 bordPanier" style= "background-color: whitesmoke;">
+			Historique de mes achats:
+			<table>
+				{% set lastPanier = -1 %}
+				{% for unHistorique in historiques %}
+					<tr>
+					{% set currentPanier = unHistorique.id %}
+					{% if currentPanier != lastPanier %}
+						{# afficher #}
+						<td>{{ unHistorique.libelle }}</td>
+						{% for couleur in couleurs %}
+							{% if unHistorique.id_couleur == couleur.id %}
+							<td>{{ couleur.libelle }}</td>
+							{% endif %}
+						{% endfor %}
+						{% for taille in tailles %}
+							{% if unHistorique.id_taille == taille.id %}
+							<td>{{ taille.libelle }}</td>
+							{% endif %}
+						{% endfor %}
+						<td>{{unHistorique.quantite}}</td>
+					{% else %}		
+						Panier suivant : {{ unHistorique.id }}	
+					{% endif %}
+					{% set lastPanier = unHistorique.id %}
+					</tr>
+				{% endfor %}
+			</table>
 
-			<div class="row bordPanier">
-				<div class="col-md-5">
-					<label class="form_col" for="firstName">Prénom :</label>
-				</div>
-				<div class="col-md-7">
-					<input name="firstName" id="firstName" type="text" class="col-md-12" value="{{ user.prenom }}" />
-					<span id="errorFirstName" class="tooltip hiddenMsg">Un prénom ne peut pas faire moins de 2 caractères</span>
-				</div>
-			</div>
 
-			<div class="row bordPanier">
-				<div class="col-md-5">
-					<label class="form_col" for="date_naiss">Date de Naissance: :</label>
-				</div>
-				<div class="col-md-7">
-					<input name="date_naiss" id="date_naiss" type="date" class="col-md-12" value="{{ user.date_naiss }}" />
-				</div>
-			</div>
-
-			<div class="row bordPanier">
-				<div class="col-md-5">
-					<label class="form_col" for="login">Mail :</label>
-				</div>
-				<div class="col-md-7">
-					<input name="login" id="mail" type="mail" class="col-md-12" value="{{ user.mail }}" />
-					<span id="errorMail" class="tooltip hiddenMsg">Votre adresse mail n'est pas valable</span>
-				</div>
-			</div>
-
-			<div class="row bordPanier">
-				<div class="col-md-5">
-					<label class="form_col" for="login">Pseudo :</label>
-				</div>
-				<div class="col-md-7">
-					<input name="login" id="pseudo" type="text" class="col-md-12" value="{{ user.pseudo }}" />
-					<span id="errorPseudo" class="tooltip hiddenMsg">Le pseudo ne peut pas faire moins de 4 caractères</span>
-				</div>
-			</div>
-
-			<div class="row bordPanier">
-				<div class="col-md-5">
-					<label class="form_col" for="pwd1">Mot de passe :</label>
-				</div>
-				<div class="col-md-7">
-					<input name="pwd1" id="pwd1" type="password" class="col-md-12" value="{{ user.mdp }}" />
-				</div>
-			</div>
-
-			<div class="row bordPanier">
-				<div class="col-md-5">
-					<label class="form_col" for="pwd2">Mot de passe (confirm) :</label>
-				</div>
-				<div class="col-md-7">
-					<input name="pwd2" id="pwd2" type="password" class="col-md-12" value="{{ user.mdp }}" />
-					<span id="errorPwd1" class="tooltip hiddenMsg">Le mot de passe ne doit pas faire moins de 6 caractères</span>
-					<span id="errorPwd2" class="tooltip hiddenMsg">Le mot de passe de confirmation doit être identique à celui d'origine</span>
-				</div>
-			</div>
-			{% endfor %}
-			{% for facturation in tabFacturation %}
-
-			<div class="row bordPanier">
-				<div class="col-md-5">
-					<label class="form_col" for="lastName">Adresse Facturation:</label>
-				</div>
-				<div class="col-md-7">	
-					<input name="adresse" id="adresse" type="text" class="col-md-12" value="{{ facturation.adresse_facturation }}" />
-					<span id="errorAdresse" class="tooltip hiddenMsg"></span>
-				</div>
-				<div class="col-md-5">
-					<label class="form_col" for="lastName">Code Postal:</label>
-				</div>
-				<div class="col-md-7">	
-					<input name="adresse" id="adresse" type="number" class="col-md-12" value="{{ facturation.cp_facturation }}" />
-					<span id="errorAdresse" class="tooltip hiddenMsg"></span>
-				</div>
-				<div class="col-md-5">
-					<label class="form_col" for="lastName">Ville:</label>
-				</div>
-				<div class="col-md-7">	
-					<input name="adresse" id="adresse" type="text" class="col-md-12" value="{{ facturation.ville_facturation }}" />
-					<span id="errorAdresse" class="tooltip hiddenMsg"></span>
-				</div>
-			</div>
-			{% endfor %}
-
-			{% for adresse in tabAdresse %}
-
-			<div class="row bordPanier">
-				<div class="col-md-5">
-					<label class="form_col" for="lastName">Adresse Livraison:</label>
-				</div>
-				<div class="col-md-7">	
-					<input name="adresse" id="adresse" type="text" class="col-md-12" value="{{ adresse.adresse_livraison }}" />
-					<span id="errorAdresse" class="tooltip hiddenMsg"></span>
-				</div>
-				<div class="col-md-5">
-					<label class="form_col" for="lastName">Code Postal:</label>
-				</div>
-				<div class="col-md-7">	
-					<input name="adresse" id="adresse" type="number" class="col-md-12"value="{{ adresse.cp_livraison }}" />
-					<span id="errorAdresse" class="tooltip hiddenMsg"></span>
-				</div>
-				<div class="col-md-5">
-					<label class="form_col" for="lastName">Ville:</label>
-				</div>
-				<div class="col-md-7">	
-					<input name="adresse" id="adresse" type="text" class="col-md-12" value="{{ adresse.ville_livraison }}" />
-					<span id="errorAdresse" class="tooltip hiddenMsg"></span>
-				</div>
-			</div>		
-		{% endfor %}
-
+		</div>
+		<div class="col-md-1"></div>
 	</div>
-	<div class="col-md-1"></div>
-	<div class="col-md-4 bordPanier" style= "background-color: whitesmoke;">
-		Historique de mes achats:
-		<table>
-			{% for unHistorique in historiques %}
-				<tr>
-				{% set currentPanier = unHistorique.id %}
 
-				{% if currentPanier != lastPanier %}
-					{# afficher #}
-					<td>{{ unHistorique.libelle }}</td>
-				{% else %}
-					
-					Panier suivant : {{ unHistorique.id }}
-					
-				{% endif %}
+	<div style="height: 25px;"></div>
 
-				{% set lastPanier = unHistorique.id %}
-				</tr>
-			{% endfor %}
-		</table>
-
-
+	<div class="row">
+		<div class="col-md-5"></div>
+		<div class="col-md-2">
+				<button id="btnModifProfil" class="col-md-12 btn btn-dark btn-noDecoration">Enregistrer</button>
+		</div>
+		<div class="col-md-5"></div>
 	</div>
-	<div class="col-md-1"></div>
+
+	<div style="width:100%; height: 60px;"></div>
+
 </div>
-
-<div style="height: 25px;"></div>
-
-<div class="row">
-	<div class="col-md-5"></div>
-	<div class="col-md-2">
-			<button id="btnModifProfil" class="col-md-12 btn btn-dark btn-noDecoration">Enregistrer</button>
-	</div>
-	<div class="col-md-5"></div>
-</div>
-
-<div style="width:100%; height: 60px;"></div>
-
-
 
 
 {% endblock %}
