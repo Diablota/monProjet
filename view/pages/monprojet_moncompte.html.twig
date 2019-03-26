@@ -142,29 +142,44 @@
 		<div class="col-md-4 bordPanier" style= "background-color: whitesmoke;">
 			Historique de mes achats:
 			<table>
-				{% set lastPanier = -1 %}
-				{% for unHistorique in historiques %}
-					<tr>
-					{% set currentPanier = unHistorique.id %}
+				{% set lastPanier = "-1" %}
+				<tr>
+					<td>
+						Article
+					</td>
+					<td>
+						Couleur
+					</td>
+					<td>
+						taille
+					</td>
+					<td>
+						Quantite
+					</td>
+				</tr>
+				{% for unHistorique in historiques %}	
+					{% set currentPanier = unHistorique.id_panier %}
 					{% if currentPanier != lastPanier %}
-						{# afficher #}
-						<td>{{ unHistorique.libelle }}</td>
-						{% for couleur in couleurs %}
-							{% if unHistorique.id_couleur == couleur.id %}
-							<td>{{ couleur.libelle }}</td>
-							{% endif %}
-						{% endfor %}
-						{% for taille in tailles %}
-							{% if unHistorique.id_taille == taille.id %}
-							<td>{{ taille.libelle }}</td>
-							{% endif %}
-						{% endfor %}
-						<td>{{unHistorique.quantite}}</td>
-					{% else %}		
-						Panier suivant : {{ unHistorique.id }}	
+						<tr>
+							<td>{{ unHistorique.libelle }}</td>
+							{% for couleur in couleurs %}
+								{% if unHistorique.id_couleur == couleur.id %}
+								<td>{{ couleur.libelle }}</td>
+								{% endif %}
+							{% endfor %}
+							{% for taille in tailles %}
+								{% if unHistorique.id_taille == taille.id %}
+								<td>{{ taille.libelle }}</td>
+								{% endif %}
+							{% endfor %}
+							<td>{{unHistorique.quantite}}</td>
+						</tr>
+					{% else %}	
+						<tr>
+							<td>Panier suivant : Commande n°{{ unHistorique.id_panier }}</td>
+						</tr>	
 					{% endif %}
-					{% set lastPanier = unHistorique.id %}
-					</tr>
+					{% set lastPanier = unHistorique.id_panier %}
 				{% endfor %}
 			</table>
 

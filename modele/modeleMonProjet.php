@@ -22,7 +22,8 @@ function insertUser($idFacturation, $idAdresse) {
 	$pseudo = htmlspecialchars($_POST["pseudo"]);
 	$email = htmlspecialchars($_POST["email"]);
 	$mdp = htmlspecialchars($_POST["pwd1"]);
-	$ddn = htmlspecialchars($_POST["dateDeNaiss"]);
+	$ddn = $_POST["dateDeNaiss"];
+	$date=date("Y-m-d",strtotime($ddn));
 	$bdd = coBdd();
 	$req = $bdd->prepare('
 		INSERT INTO utilisateur (nom, prenom, pseudo, mail, mdp, date_naiss, id_facturation, id_adresse) 
@@ -33,8 +34,8 @@ function insertUser($idFacturation, $idAdresse) {
 	$req->bindParam(':pseudo', $pseudo, PDO::PARAM_STR);
 	$req->bindParam(':mail', $email, PDO::PARAM_STR);
 	$req->bindParam(':mdp', $mdp, PDO::PARAM_STR);
-	$req->bindParam(':date_naiss', $ddn, PDO::PARAM_INT);
-	$req->bindParam(':idFacturation', $idFacturation, PDO::PARAM_INT);
+	$req->bindParam(':date_naiss', $date, PDO::PARAM_INT);
+	$req->bindParam(':idFacturation', $idFacturation);
 	$req->bindParam(':idAdresse', $idAdresse, PDO::PARAM_INT);
 	$req->execute();
 }
@@ -339,13 +340,11 @@ function insertArticlePanier($idPanier) {
 function insertPanier($date, $idAdresse, $idFacturation) {
 	$bdd = coBdd();
 	$req = $bdd->prepare('
-		INSERT INTO panier (date, id_utilisateur, id_adresse, id_facturation, is_deleted, is_paid)
-		VALUES (:date, :id_utilisateur, :id_adresse, :id_facturation, 0, 0)
+		INSERT INTO panier (date, id_utilisateur, is_deleted, is_paid)
+		VALUES (:date, :id_utilisateur,  0, 0)
 	');
     $req->bindParam(':date', $date, PDO::PARAM_STR);
 	$req->bindParam(':id_utilisateur', $_SESSION['idUtilisateur'], PDO::PARAM_INT);
-	$req->bindParam(':id_adresse', $idAdresse, PDO::PARAM_INT);
-	$req->bindParam(':id_facturation', $idFacturation, PDO::PARAM_INT);
     $req->execute();
 }
 
