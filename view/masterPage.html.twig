@@ -3,8 +3,8 @@
 <head>
     <title>{% block title %}{% endblock %}Diakustom</title>
     <meta charset="utf-8" />
-    <meta http-equiv="Cache-control" content="no-cache">
-    <meta http-equiv="Pragma" content="no-cache">
+    <!-- <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache"> -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link type="text/css" rel="stylesheet" href="lib/libbootstrap/css/bootstrap.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
@@ -224,6 +224,47 @@
                                             <input class="form-control" type="password" name="pwd2" id="pwd2" placeholder="Votre Mot de Passe" />
                                             <span id="errorPwd2" class="hiddenMsg">Le mot de passe de confirmation doit être identique à celui d'origine</span>
                                         </div>
+
+
+
+                                        <div class="form-group">
+                                            <label for="dateDeNaissance" class="couleurTexte">Date de Naissance</label>
+                                            <input class="form-control" type="date" name="dateDeNaiss" id="dateDeNaiss" placeholder="Votre Date de Naissance" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="adresseFact" class="couleurTexte">Adresse Facturation</label>
+                                            <input class="form-control" type="text" name="adresseFacturation" id="adresseFacturation" placeholder="Votre Adresse de Facturation" />
+                                            <span id="errorAdressFact" class="hiddenMsg">Une adresse ne peut pas faire moins de 2 caractères</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cpFact" class="couleurTexte">Code Postal Facturation</label>
+                                            <input class="form-control" type="number" name="CodePostalFacturation" id="CodePostalFacturation" placeholder="Votre Code Postal de livraison" />
+                                            <span id="errorCPFact" class="hiddenMsg">Un code postal ne peut pas faire moins de 5 caractères</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="villeFact" class="couleurTexte">Ville Facturation</label>
+                                            <input class="form-control" type="text" name="villeFacturation" id="villeFacturation" placeholder="Votre Ville de livraison" />
+                                            <span id="errorVilleFact" class="hiddenMsg">Une ville ne peut pas faire moins de 3 caractères</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="adresseLiv" class="couleurTexte">Adresse de livraison</label>
+                                            <input class="form-control" type="text" name="adresseLivraison" id="adresseLivraison" placeholder="Votre Adresse de Livraison" />
+                                            <span id="errorAdresseLiv" class="hiddenMsg">Une adresse ne peut pas faire moins de 2 caractères</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cpLiv" class="couleurTexte">Code Postal Livraison</label>
+                                            <input class="form-control" type="number" name="codePostalLivraison" id="codePostalLivraison" placeholder="Votre Code Postal de livraison" />
+                                            <span id="errorCPLiv" class="hiddenMsg">Un code postal ne peut pas faire moins de 5 caractères</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="villeLiv" class="couleurTexte">Ville Livraison</label>
+                                            <input class="form-control" type="text" name="villeLivraison" id="villeLivraison" placeholder="Votre Ville de Livraison" />
+                                            <span id="errorVilleLiv" class="hiddenMsg">Une ville ne peut pas faire moins de 3 caractères</span>
+                                        </div>
+
+
+
+
                                     </div>
                                     <div class="col-md-1"></div>
                                 </div>

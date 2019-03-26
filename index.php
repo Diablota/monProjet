@@ -28,10 +28,10 @@ if(isset($_GET['subcat'])) {
 }
 
 
-switch ($_POST['controllerAction']) {
 
+switch ($_POST['controllerAction']) {
     
-    // connexion et renvoi des information des pages de l'acceuil et creation de la facturation pour la relier a l'utilisateur
+    // connexion et renvoi des information des pages de l'acceuil et creation de la facturation pour la relier à l'utilisateur
     case 'connection':
         $news=getNews();
         $newsCategorie = array();
@@ -54,14 +54,13 @@ switch ($_POST['controllerAction']) {
                 {
                     $monFacturation=$unFacturation['id'];
                 }
-                if( $monFacturation==""){
-                    insertFacturation("", "", "");
+                if( $monFacturation=="") {
+
                     $mesFacturations = getFacturation2($_SESSION['idUtilisateur']);
                     while ($unFacturation = $mesFacturations->fetch())
                     {
                         $monFacturation=$unFacturation['id'];
                     }
-                    updateUserFacturation($monFacturation);
                 }
             }
         }
@@ -95,9 +94,15 @@ switch ($_POST['controllerAction']) {
         ));
     break;
             
+
+
     // inscription et renvoi des information des pages de l'acceuil
     case 'inscription':
-        insertUser();
+
+        $idFacturation = insertFacturation();
+        $idAdress = insertAdresse();
+        insertUser($idFacturation, $idAdress);
+
         $news=getNews();
         $newsCategorie = array();
         $i = 0;
@@ -342,18 +347,21 @@ switch ($_POST['controllerAction']) {
         $tabUser = array();
 
         $i = 0;
-        $adresse;
+        $idAdresse;
         $adresseFacturation;
         $historique;
-        $tabHistorique;
+        $tabHistorique = array();
+        $tabAdresse = array();
+
         while ($rep = $reponse->fetch())
         {
             $tabUser[$i] = $rep;
-            $adresse=$rep['id_adresse'];
+            $idAdresse = $rep['id_adresse'];
             $adresseFacturation=$rep['id_facturation'];
             $i++;
         }
-        $reponse = getAdresse($adresse);
+
+        $reponse = getAdresse($idAdresse);
         while ($rep = $reponse->fetch())
         {
             $tabAdresse[$i] = $rep;
@@ -369,20 +377,15 @@ switch ($_POST['controllerAction']) {
         }
 
 
-        $tabHistorique = getAllPanierUser($_SESSION['idUtilisateur']);
-
-        $couleurs = getCouleurss();
-        $tailles = getTailless();
-        $articles = getArticless();
         echo $twig->render('pages/monprojet_moncompte.html.twig', array(
         'session' => $_SESSION,
         'tabUser' => $tabUser,
         'tabAdresse' => $tabAdresse,
         'tabFacturation' => $tabFacturation,
-        'historiques' => $tabHistorique,
-        'couleurs' => $couleurs,
-        'tailles' => $tailles,
-        'articles' => $articles,
+        'historiques' => getAllPanierUser($_SESSION['idUtilisateur']),
+        'couleurs' => getCouleurss(),
+        'tailles' => getTailless(),
+        'articles' => getArticless(),
         ));
     break;
 
@@ -436,7 +439,7 @@ switch ($_POST['controllerAction']) {
     ));
     break;
 
-    // code pour inserer les articles dans le panier
+    // inserer les articles dans le panier
     case 'insertionPanier':
 
         if( !isset($_SESSION['idUtilisateur'])){

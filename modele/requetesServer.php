@@ -66,7 +66,7 @@ if(isset($_POST['postMsgLive'])) {
 	}
 }
 
-// changer les images par couleur ( a utiliser)
+// changer les images par couleur (a utiliser)
 if(isset($_POST['changeImage'])) {
 	$reponse = getCouleurImg($_POST['changeImage']);
 	while ($donnees = $reponse->fetch())

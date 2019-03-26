@@ -16,24 +16,27 @@ function coBdd(){
 }
 
 // insert un utilisateur dans la base de donnée (INSCRIPTION)
-function insertUser() {
+function insertUser($idFacturation, $idAdresse) {
 	$prenom = htmlspecialchars($_POST["lastName"]);
 	$nom = htmlspecialchars($_POST["firstName"]);
 	$pseudo = htmlspecialchars($_POST["pseudo"]);
 	$email = htmlspecialchars($_POST["email"]);
 	$mdp = htmlspecialchars($_POST["pwd1"]);
-	
+	$ddn = htmlspecialchars($_POST["dateDeNaiss"]);
 	$bdd = coBdd();
 	$req = $bdd->prepare('
-		INSERT INTO utilisateur (nom, prenom, pseudo, mail, mdp) 
-		VALUES (:nom, :prenom,  :pseudo, :mail, :mdp)
+		INSERT INTO utilisateur (nom, prenom, pseudo, mail, mdp, date_naiss, id_facturation, id_adresse) 
+		VALUES (:nom, :prenom,  :pseudo, :mail, :mdp, :date_naiss, :idFacturation, :idAdresse)
 	');
     $req->bindParam(':prenom', $prenom, PDO::PARAM_STR);
 	$req->bindParam(':nom', $nom, PDO::PARAM_STR);
 	$req->bindParam(':pseudo', $pseudo, PDO::PARAM_STR);
 	$req->bindParam(':mail', $email, PDO::PARAM_STR);
 	$req->bindParam(':mdp', $mdp, PDO::PARAM_STR);
-    $req->execute();
+	$req->bindParam(':date_naiss', $ddn, PDO::PARAM_INT);
+	$req->bindParam(':idFacturation', $idFacturation, PDO::PARAM_INT);
+	$req->bindParam(':idAdresse', $idAdresse, PDO::PARAM_INT);
+	$req->execute();
 }
 
 // Vérifie les données utilisateur (CONNEXION)
@@ -54,8 +57,6 @@ function getUser() {
     $reponse = $bdd->prepare('
         SELECT * 
 		FROM utilisateur 
-		LEFT JOIN utilisateur_adresse
-			ON utilisateur_adresse.id_utilisateur = utilisateur.id
         WHERE id = "' . $_SESSION['idUtilisateur'] . '"
     ');
     $reponse->execute();
@@ -261,7 +262,6 @@ function rechercheArticles($id){
 	return $req;
 }
 
-// fonction a voir pour reutiliser a la creation de l'historique des commandes
 // recuperer panier
 function getPanier($id) {
 	$bdd = coBdd();
@@ -275,7 +275,7 @@ function getPanier($id) {
 	return $req;
 }
 
-//
+// recuperer le panier de l'utilisateur
 function getAllPanierUser($user_id) {
 	$bdd = coBdd();
 	$req = $bdd->query('
@@ -350,30 +350,38 @@ function insertPanier($date, $idAdresse, $idFacturation) {
 }
 
 //Recuperation de la BDD table facturation (adresse facturation= adresse domicile)
-function insertFacturation($adresseFacturation, $cpFacturation, $villeFacturation) {
+function insertFacturation() {
+	$adresseFacturation = htmlspecialchars($_POST["adresseFacturation"]);
+	$cpFacturation = htmlspecialchars($_POST["CodePostalFacturation"]);
+	$villeFacturation = htmlspecialchars($_POST["villeFacturation"]);
 	$bdd = coBdd();
 	$req = $bdd->prepare('
-		INSERT INTO facturation (adresse_facturation, cp_facturation, ville_facturation, id_user)
-		VALUES (:adresse_facturation, :cp_facturation, :ville_facturation, :id_user)
+		INSERT INTO facturation (adresse_facturation, cp_facturation, ville_facturation)
+		VALUES (:adresse_facturation, :cp_facturation, :ville_facturation)
 	');
 	$req->bindParam(':adresse_facturation', $adresseFacturation, PDO::PARAM_STR);
 	$req->bindParam(':cp_facturation', $cpFacturation, PDO::PARAM_STR);
 	$req->bindParam(':ville_facturation', $villeFacturation, PDO::PARAM_STR);
-	$req->bindParam(':id_user',  $_SESSION['idUtilisateur'], PDO::PARAM_STR);
 	$req->execute();
+	$bdd->lastInsertId();
+	return $bdd->lastInsertId();
 }
 
 //Recuperation de la BDD table adresse (adresse = adresse livraison)
 function insertAdresse() {
+	$adresseLivraison = htmlspecialchars($_POST["adresseLivraison"]);
+	$cpLivraison = htmlspecialchars($_POST["codePostalLivraison"]);
+	$villeLivraison = htmlspecialchars($_POST["villeLivraison"]);
 	$bdd = coBdd();
 	$req = $bdd->prepare('
 		INSERT INTO adresse (adresse_livraison, cp_livraison, ville_livraison)
 		VALUES (:adresse_livraison, :cp_livraison, :ville_livraison)
 	');
 	$req->bindParam(':adresse_livraison', $adresseLivraison, PDO::PARAM_STR);
-	$req->bindParam(':cp_livraison', $cpLivraison, PDO::PARAM_STR);
-	$req->bindParam(':ville_livraison', $villeLivraison, PDO::PARAM_STR);
-    $req->execute();
+	$req->bindParam(':cp_livraison'     , $cpLivraison     , PDO::PARAM_STR);
+	$req->bindParam(':ville_livraison'  , $villeLivraison  , PDO::PARAM_STR);
+	$req->execute();
+	return $bdd->lastInsertId();
 }
 
 //fonction pour recuperer le dernier id de facturation
@@ -470,6 +478,7 @@ function PanierIsPaid($id) {
 	return $req;
 }
 
+// Recuperer le mot de passe
 function getMdp($mailDemande) {
 	$bdd = coBdd();
 	$reponse = $bdd->prepare('
